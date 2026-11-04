@@ -1,1 +1,0 @@
-﻿-- sync query from file

@@ -1,9 +1,0 @@
-﻿{
-  "properties": {
-    "Id": { "type": "long" },
-    "Content": { "type": "text" }
-  },
-  "_meta": {
-    "ver": "2"
-  }
-}
