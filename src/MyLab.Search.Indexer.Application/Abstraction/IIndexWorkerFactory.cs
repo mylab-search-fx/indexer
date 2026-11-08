@@ -1,6 +1,6 @@
 ﻿namespace MyLab.Search.Indexer.Application.Abstraction
 {
-    interface IIndexWorkerFactory
+    public interface IIndexWorkerFactory
     {
         IReadOnlyList<IIndexWorker> CreateAll();
     }

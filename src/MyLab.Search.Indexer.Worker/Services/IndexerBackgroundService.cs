@@ -1,25 +1,25 @@
 ﻿using MyLab.Log.Dsl;
+using MyLab.Search.Indexer.Application.Abstraction;
 
 namespace MyLab.Search.Indexer.Worker.Services;
 
 public class IndexerBackgroundService : BackgroundService
 {
-    readonly IDslLogger _log;
+    readonly IIndexWorkerOrchestrator _orchestrator;
+    readonly IDslLogger? _log;
 
-    public IndexerBackgroundService(ILogger<IndexerBackgroundService> logger)
+    public IndexerBackgroundService(IIndexWorkerOrchestrator orchestrator, ILogger<IndexerBackgroundService>? logger = null)
     {
-        _log = logger.Dsl();
+        _orchestrator = orchestrator;
+        _log = logger?.Dsl();
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _log.Action("Worker started").Write();
+        _log?.Action("Worker started").Write();
 
-        while (!stoppingToken.IsCancellationRequested)
-        {   
+        await _orchestrator.RunAsync(stoppingToken);
             
-        }
-            
-        _log.Action("Worker stopped").Write();
+        _log?.Action("Worker stopped").Write();
     }
 }
