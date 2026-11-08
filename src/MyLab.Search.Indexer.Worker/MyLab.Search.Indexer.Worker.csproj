@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="10.0.14" />
+    <PackageReference Include="MyLab.Log.Dsl" Version="3.7.5" />
+  </ItemGroup>
+
 </Project>
