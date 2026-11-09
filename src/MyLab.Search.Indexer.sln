@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Applic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Application.UnitTests", "MyLab.Search.Indexer.Application.UnitTests\MyLab.Search.Indexer.Application.UnitTests.csproj", "{5D47E8B3-5AF5-48B5-A172-A172F913963B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure", "MyLab.Search.Indexer.Infrastructure\MyLab.Search.Indexer.Infrastructure.csproj", "{04A019ED-402E-42CD-B3F4-3EFD343457B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure.UnitTests", "MyLab.Search.Indexer.Infrastructure.UnitTests\MyLab.Search.Indexer.Infrastructure.UnitTests.csproj", "{3074581F-0D26-4E5C-B035-EACDA1C4C053}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{5D47E8B3-5AF5-48B5-A172-A172F913963B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D47E8B3-5AF5-48B5-A172-A172F913963B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D47E8B3-5AF5-48B5-A172-A172F913963B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04A019ED-402E-42CD-B3F4-3EFD343457B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04A019ED-402E-42CD-B3F4-3EFD343457B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04A019ED-402E-42CD-B3F4-3EFD343457B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04A019ED-402E-42CD-B3F4-3EFD343457B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3074581F-0D26-4E5C-B035-EACDA1C4C053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3074581F-0D26-4E5C-B035-EACDA1C4C053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3074581F-0D26-4E5C-B035-EACDA1C4C053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3074581F-0D26-4E5C-B035-EACDA1C4C053}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

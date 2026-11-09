@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure\MyLab.Search.Indexer.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

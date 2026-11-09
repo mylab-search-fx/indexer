@@ -4,7 +4,7 @@ using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Application.Options;
 using YamlDotNet.Serialization;
 
-namespace MyLab.Search.Indexer.Application.Indexing;
+namespace MyLab.Search.Indexer.Infrastructure.FileSystem;
 
 public class LocalFileIndexConfigProvider(IOptions<WorkerOptions> opts) : IIndexConfigProvider
 {

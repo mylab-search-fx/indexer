@@ -1,8 +1,8 @@
 using MyLab.Search.Indexer.Application.Config;
-using MyLab.Search.Indexer.Application.Indexing;
+using MyLab.Search.Indexer.Infrastructure.FileSystem;
 using YamlDotNet.Core;
 
-namespace MyLab.Search.Indexer.Application.UnitTests.Indexing;
+namespace MyLab.Search.Indexer.Infrastructure.UnitTests.FileSystem;
 
 public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 {

@@ -1,5 +1,6 @@
 using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Indexing;
+using MyLab.Search.Indexer.Infrastructure.FileSystem;
 using MyLab.Search.Indexer.Worker.Options;
 using MyLab.Search.Indexer.Worker.Services;
 
