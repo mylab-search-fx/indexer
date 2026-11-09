@@ -2,6 +2,6 @@
 {
     public interface IIndexWorkerFactory
     {
-        IReadOnlyList<IIndexWorker> CreateAll();
+        Task<IReadOnlyList<IIndexWorker>> CreateAllAsync(CancellationToken cancellationToken);
     }
 }

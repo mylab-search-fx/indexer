@@ -72,6 +72,7 @@ public class IndexWorkerOrchestratorBehavior(ITestOutputHelper output)
 
     sealed class StubIndexWorkerFactory(IReadOnlyList<IIndexWorker> workers) : IIndexWorkerFactory
     {
-        public IReadOnlyList<IIndexWorker> CreateAll() => workers;
+        public Task<IReadOnlyList<IIndexWorker>> CreateAllAsync(CancellationToken cancellationToken) =>
+            Task.FromResult(workers);
     }
 }

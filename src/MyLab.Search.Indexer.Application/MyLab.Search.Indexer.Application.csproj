@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MyLab.Log.Dsl" Version="3.7.5" />
+    <PackageReference Include="YamlDotNet" Version="18.1.0" />
   </ItemGroup>
 
   <ItemGroup>

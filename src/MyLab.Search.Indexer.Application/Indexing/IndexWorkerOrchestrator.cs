@@ -7,7 +7,7 @@ namespace MyLab.Search.Indexer.Application.Indexing
     {
         public async Task RunAsync(CancellationToken cancellationToken)
         {
-            var workers = factory.CreateAll() 
+            var workers = await factory.CreateAllAsync(cancellationToken) 
                           ?? throw new NullReferenceException("factory.CreateAll()");
 
             await Task.WhenAll(workers.Select(w => RunAsync(w, cancellationToken)));
@@ -15,20 +15,33 @@ namespace MyLab.Search.Indexer.Application.Indexing
 
         async Task RunAsync(IIndexWorker worker, CancellationToken cancellationToken)
         {
-            while (!cancellationToken.IsCancellationRequested)
+            IDisposable? logScope = null;
+            
+            if (log != null)
             {
-                log?.Action("Index worker iteration started").Write();
+                var scopedFacts = new Dictionary<string, object>
+                {
+                    { "index", worker.Name }
+                };
 
-                try
-                {
-                    await worker.RunAsync(cancellationToken);
-                    
-                    log?.Action("Index worker iteration end").Write();
-                }
-                catch (Exception e)
-                {
-                    log?.Error("Index worker iteration error", e).Write();
-                }
+                logScope = log.BeginScope(scopedFacts);
+            }
+
+            log?.Action("Index worker iteration started").Write();
+
+            try
+            {
+                await worker.RunAsync(cancellationToken);
+
+                log?.Action("Index worker iteration end").Write();
+            }
+            catch (Exception e)
+            {
+                log?.Error("Index worker iteration error", e).Write();
+            }
+            finally
+            {
+                logScope?.Dispose();
             }
         }
     }
