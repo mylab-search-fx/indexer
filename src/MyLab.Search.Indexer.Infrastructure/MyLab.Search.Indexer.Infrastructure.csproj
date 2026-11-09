@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DB\" />
+  </ItemGroup>
+
 </Project>
