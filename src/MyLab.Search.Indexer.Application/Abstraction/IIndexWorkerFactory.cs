@@ -1,7 +1,6 @@
-﻿namespace MyLab.Search.Indexer.Application.Abstraction
+﻿namespace MyLab.Search.Indexer.Application.Abstraction;
+
+public interface IIndexWorkerFactory
 {
-    public interface IIndexWorkerFactory
-    {
-        Task<IReadOnlyList<IIndexWorker>> CreateAllAsync(CancellationToken cancellationToken);
-    }
+    Task<IReadOnlyList<IIndexWorker>> CreateAllAsync(CancellationToken cancellationToken);
 }

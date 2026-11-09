@@ -1,7 +1,6 @@
-﻿namespace MyLab.Search.Indexer.Application.Abstraction
+﻿namespace MyLab.Search.Indexer.Application.Abstraction;
+
+public interface IIndexWorkerOrchestrator
 {
-    public interface IIndexWorkerOrchestrator
-    {
-        Task RunAsync(CancellationToken cancellationToken);
-    }
+    Task RunAsync(CancellationToken cancellationToken);
 }

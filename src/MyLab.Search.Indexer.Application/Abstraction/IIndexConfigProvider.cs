@@ -1,9 +1,8 @@
 ﻿using MyLab.Search.Indexer.Application.Config;
 
-namespace MyLab.Search.Indexer.Application.Abstraction
+namespace MyLab.Search.Indexer.Application.Abstraction;
+
+public interface IIndexConfigProvider
 {
-    public interface IIndexConfigProvider
-    {
-        Task<IReadOnlyList<IndexConfig>> ProvideAllAsync(CancellationToken cancellationToken);
-    }
+    Task<IReadOnlyList<IndexConfig>> ProvideAllAsync(CancellationToken cancellationToken);
 }
