@@ -6,11 +6,11 @@ using YamlDotNet.Serialization;
 
 namespace MyLab.Search.Indexer.Infrastructure.FileSystem;
 
-public class LocalFileIndexConfigProvider(IOptions<WorkerOptions> opts) : IIndexConfigProvider
+public class LocalFileIndexDescProvider(IOptions<WorkerOptions> opts) : IIndexDescProvider
 {
     readonly IDeserializer _yamlDeserializer = new DeserializerBuilder().Build();
 
-    public async Task<IReadOnlyList<IndexConfig>> ProvideAllAsync(CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<IndexDescription>> ProvideAllAsync(CancellationToken cancellationToken)
     {
         if (opts.Value == null)
             throw new InvalidOperationException("Options not found");
@@ -19,33 +19,33 @@ public class LocalFileIndexConfigProvider(IOptions<WorkerOptions> opts) : IIndex
         var idxDirs = configDir.EnumerateDirectories();
 
             
-        var idxConfigs = await Task.WhenAll(idxDirs.Select(GetIndexConfigAsync));
+        var idxDescs = await Task.WhenAll(idxDirs.Select(GetIndexDescAsync));
 
-        return idxConfigs
+        return idxDescs
             .ToList()
             .AsReadOnly();
     }
 
-    async Task<IndexConfig> GetIndexConfigAsync(DirectoryInfo idxDir)
+    async Task<IndexDescription> GetIndexDescAsync(DirectoryInfo idxDir)
     {
         var name = idxDir.Name;
         var querySql = await LoadSqlQueryAsync(idxDir);
         var prms = await LoadParamsAsync(idxDir);
 
-        return new IndexConfig(name, querySql, prms);
+        return new IndexDescription(name, querySql, prms);
     }
 
-    async Task<IndexParams> LoadParamsAsync(DirectoryInfo idxDir)
+    async Task<IndexConfig> LoadParamsAsync(DirectoryInfo idxDir)
     {
         var paramsFilePath = Path.Combine(idxDir.FullName, "params.yml");
         var paramsFile = new FileInfo(paramsFilePath);
 
         if (!paramsFile.Exists)
-            return new IndexParams();
+            return new IndexConfig();
 
         var paramsStr = await File.ReadAllTextAsync(paramsFilePath);
 
-        return _yamlDeserializer.Deserialize<IndexParams>(paramsStr);
+        return _yamlDeserializer.Deserialize<IndexConfig>(paramsStr);
     }
 
     Task<string> LoadSqlQueryAsync(DirectoryInfo idxDir)

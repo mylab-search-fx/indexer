@@ -11,7 +11,7 @@ namespace MyLab.Search.Indexer.Application
         public static IServiceCollection AddIndexerAppLogic(this IServiceCollection srv, IConfiguration cfg)
         {
             return srv.AddSingleton<IIndexWorkerOrchestrator, IIndexWorkerOrchestrator>()
-                .AddSingleton<IIndexWorkerFactory, IndexWorkerFactory>()
+                .AddSingleton<IndexWorkerFactory>()
                 .Configure<WorkerOptions>(cfg.GetSection(WorkerOptions.SectionName));
         }
     }

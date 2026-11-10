@@ -3,7 +3,7 @@ using MyLab.Search.Indexer.Application.Abstraction;
 
 namespace MyLab.Search.Indexer.Application.Indexing;
 
-class IndexWorkerOrchestrator(IIndexWorkerFactory factory, IDslLogger? log = null) : IIndexWorkerOrchestrator
+class IndexWorkerOrchestrator(IndexWorkerFactory factory, IDslLogger? log = null) : IIndexWorkerOrchestrator
 {
     public async Task RunAsync(CancellationToken cancellationToken)
     {
@@ -13,7 +13,7 @@ class IndexWorkerOrchestrator(IIndexWorkerFactory factory, IDslLogger? log = nul
         await Task.WhenAll(workers.Select(w => RunAsync(w, cancellationToken)));
     }
 
-    async Task RunAsync(IIndexWorker worker, CancellationToken cancellationToken)
+    async Task RunAsync(IndexWorker worker, CancellationToken cancellationToken)
     {
         IDisposable? logScope = null;
             

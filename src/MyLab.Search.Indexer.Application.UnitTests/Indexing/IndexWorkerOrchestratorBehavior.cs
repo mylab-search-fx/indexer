@@ -67,7 +67,7 @@ public class IndexWorkerOrchestratorBehavior(ITestOutputHelper output)
     {
         public string Name { get; } = name;
 
-        public Task RunAsync(CancellationToken cancellationToken) => run(cancellationToken);
+        public Task RunAsync(CancellationToken ct) => run(ct);
     }
 
     sealed class StubIndexWorkerFactory(IReadOnlyList<IIndexWorker> workers) : IIndexWorkerFactory

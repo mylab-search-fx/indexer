@@ -34,7 +34,7 @@ public partial class LocalFileIndexConfigProviderBehavior
             File.WriteAllText(Path.Combine(indexDir, "params.yml"), yaml);
     }
 
-    static LocalFileIndexConfigProvider CreateProvider(string configPath) =>
+    static LocalFileIndexDescProvider CreateProvider(string configPath) =>
         new(new FixedWorkerOptions(new WorkerOptions { ConfigPath = configPath }));
 
     sealed class FixedWorkerOptions(WorkerOptions value) : IOptions<WorkerOptions>

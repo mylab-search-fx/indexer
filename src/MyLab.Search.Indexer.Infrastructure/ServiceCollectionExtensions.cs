@@ -8,7 +8,7 @@ namespace MyLab.Search.Indexer.Infrastructure
     {
         public static IServiceCollection AddIndexerInfrastructure(this IServiceCollection srv)
         {
-            return srv.AddSingleton<IIndexConfigProvider, LocalFileIndexConfigProvider>();
+            return srv.AddSingleton<IIndexDescProvider, LocalFileIndexDescProvider>();
         }
     }
 }

@@ -10,7 +10,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
     public async Task ShouldThrowWhenWorkerOptionsAreMissing()
     {
         // Arrange
-        var provider = new LocalFileIndexConfigProvider(new MissingWorkerOptions());
+        var provider = new LocalFileIndexDescProvider(new MissingWorkerOptions());
 
         // Act
         var error = await Record.ExceptionAsync(() => provider.ProvideAllAsync(CancellationToken.None));
@@ -70,7 +70,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 
         // Assert
         Assert.Equal(
-            [new IndexConfig("orders", "select id from orders where seed > @seed", new IndexParams(25, "UpdatedAt"))],
+            [new IndexDescription("orders", "select id from orders where seed > @seed", new IndexConfig(25, "UpdatedAt"))],
             result);
     }
 
@@ -87,7 +87,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 
         // Assert
         var config = Assert.Single(result);
-        Assert.Equal(new IndexParams(25, "Seed"), config.Params);
+        Assert.Equal(new IndexConfig(25, "Seed"), config.Config);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
         var config = Assert.Single(result);
         Assert.Equal("orders", config.Name);
         Assert.Equal("select id from orders", config.SqlQuery);
-        Assert.Equal(new IndexParams(), config.Params);
+        Assert.Equal(new IndexConfig(), config.Config);
     }
 
     [Fact]
@@ -157,8 +157,8 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
         // Assert
         Assert.Equal(
             [
-                new IndexConfig("alpha", "select a", new IndexParams()),
-                new IndexConfig("beta", "select b", new IndexParams(10, "B"))
+                new IndexDescription("alpha", "select a", new IndexConfig()),
+                new IndexDescription("beta", "select b", new IndexConfig(10, "B"))
             ],
             result.OrderBy(config => config.Name, StringComparer.Ordinal).ToArray());
     }
