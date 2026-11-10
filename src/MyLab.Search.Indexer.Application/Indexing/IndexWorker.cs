@@ -1,4 +1,5 @@
-﻿using MyLab.Log.Dsl;
+﻿using Microsoft.Extensions.Logging;
+using MyLab.Log.Dsl;
 using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Application.Data;
@@ -14,9 +15,11 @@ public class IndexWorker
         IDestinationRepositoryFactory destRepoFactory,
         IIndexVersionController idxVerCtrlr,
         ISeedStorage seedStorage,
-        IDslLogger<IndexWorker>? log = null
+        ILogger<IndexWorker>? logger = null
     )
 {
+    readonly IDslLogger? _log = logger?.Dsl();
+    
     public string Name => idxDesc.Name;
     
     public async Task RunAsync(CancellationToken ct)
@@ -31,7 +34,7 @@ public class IndexWorker
 
             if (!idxVersionOk)
             {
-                log?.Warning("New version detected").Write();
+                _log?.Warning("New version detected").Write();
                 break;
             }
             
@@ -39,7 +42,7 @@ public class IndexWorker
 
             var idleTimeSpan = TimeSpan.FromSeconds(idxDesc.Config.Idle);
 
-            log?.Debug("Iteration idle... ")
+            _log?.Debug("Iteration idle... ")
                 .AndFactIs("time-span", idleTimeSpan)
                 .Write();
 
@@ -51,7 +54,7 @@ public class IndexWorker
     {
         if (await idxLocker.TryLockAsync(idxDesc.Name, ct, out var idxLock))
         {
-            var workLog = log != null ? IndexingWorkingLog.Start(log) : null;
+            var workLog = _log != null ? IndexingWorkingLog.Start(_log) : null;
 
             await using (idxLock!)
             {
@@ -81,7 +84,7 @@ public class IndexWorker
         }
         else
         {
-            log?.Action("Index is busy").Write();
+            _log?.Action("Index is busy").Write();
         }
     }
     

@@ -2,13 +2,14 @@
 using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Application.Options;
+using Vaxquis.NanoYaml;
 using YamlDotNet.Serialization;
 
 namespace MyLab.Search.Indexer.Infrastructure.FileSystem;
 
 public class LocalFileIndexDescProvider(IOptions<WorkerOptions> opts) : IIndexDescProvider
 {
-    readonly IDeserializer _yamlDeserializer = new DeserializerBuilder().Build();
+    //readonly IDeserializer _yamlDeserializer = new DeserializerBuilder().Build();
 
     public async Task<IReadOnlyList<IndexDescription>> ProvideAllAsync(CancellationToken cancellationToken)
     {
@@ -45,7 +46,7 @@ public class LocalFileIndexDescProvider(IOptions<WorkerOptions> opts) : IIndexDe
 
         var paramsStr = await File.ReadAllTextAsync(paramsFilePath);
 
-        return _yamlDeserializer.Deserialize<IndexConfig>(paramsStr);
+        return NanoYaml.Deserialize<IndexConfig>(paramsStr);
     }
 
     Task<string> LoadSqlQueryAsync(DirectoryInfo idxDir)

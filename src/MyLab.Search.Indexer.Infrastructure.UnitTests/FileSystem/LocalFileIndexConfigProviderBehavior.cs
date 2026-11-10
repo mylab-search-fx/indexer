@@ -1,5 +1,6 @@
 using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Infrastructure.FileSystem;
+using Vaxquis.NanoYaml;
 using YamlDotNet.Core;
 
 namespace MyLab.Search.Indexer.Infrastructure.UnitTests.FileSystem;
@@ -70,7 +71,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 
         // Assert
         Assert.Equal(
-            [new IndexDescription("orders", "select id from orders where seed > @seed", new IndexConfig(25, "UpdatedAt"))],
+            [new IndexDescription("orders", "select id from orders where seed > @seed", new IndexConfig(25, SeepField:"UpdatedAt"))],
             result);
     }
 
@@ -87,7 +88,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 
         // Assert
         var config = Assert.Single(result);
-        Assert.Equal(new IndexConfig(25, "Seed"), config.Config);
+        Assert.Equal(new IndexConfig(25, SeepField:"Seed"), config.Config);
     }
 
     [Fact]
@@ -102,7 +103,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
         var error = await Record.ExceptionAsync(() => provider.ProvideAllAsync(CancellationToken.None));
 
         // Assert
-        Assert.IsType<YamlException>(error);
+        Assert.IsType<NanoYamlException>(error);
     }
 
     [Fact]
@@ -158,7 +159,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
         Assert.Equal(
             [
                 new IndexDescription("alpha", "select a", new IndexConfig()),
-                new IndexDescription("beta", "select b", new IndexConfig(10, "B"))
+                new IndexDescription("beta", "select b", new IndexConfig(10, SeepField : "B"))
             ],
             result.OrderBy(config => config.Name, StringComparer.Ordinal).ToArray());
     }
