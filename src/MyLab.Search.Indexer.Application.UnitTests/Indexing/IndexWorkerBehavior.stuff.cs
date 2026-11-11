@@ -92,12 +92,12 @@ public partial class IndexWorkerBehavior
 
         sealed class Locker(Fixture fixture) : IIndexLocker
         {
-            public Task<bool> TryLockAsync(string indexId, CancellationToken ct, out IIndexLock? unlocker)
+            public Task<IIndexLock?> TryLockAsync(string indexId, CancellationToken ct)
             {
                 fixture.LockedIndexes.Add(indexId);
                 var granted = fixture._lockGrants.Count == 0 || fixture._lockGrants.Dequeue();
-                unlocker = granted ? new Lock(fixture) : null;
-                return Task.FromResult(granted);
+                var res = granted ? (IIndexLock)new Lock(fixture) : null;
+                return Task.FromResult(res);
             }
         }
 

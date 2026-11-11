@@ -1,16 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Config;
-using MyLab.Search.Indexer.Application.Options;
 using Vaxquis.NanoYaml;
-using YamlDotNet.Serialization;
 
 namespace MyLab.Search.Indexer.Infrastructure.FileSystem;
 
-public class LocalFileIndexDescProvider(IOptions<WorkerOptions> opts) : IIndexDescProvider
+class LocalFileIndexDescProvider(IOptions<WorkerFileSystemOptions> opts) : IIndexDescProvider
 {
-    //readonly IDeserializer _yamlDeserializer = new DeserializerBuilder().Build();
-
     public async Task<IReadOnlyList<IndexDescription>> ProvideAllAsync(CancellationToken cancellationToken)
     {
         if (opts.Value == null)

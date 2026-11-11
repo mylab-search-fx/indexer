@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddIndexerAppLogic(builder.Configuration)
-    .AddIndexerInfrastructure()
+    .AddIndexerInfrastructure(builder.Configuration)
     .AddLogging(c => c.AddMyLabConsole())
     .AddHostedService<IndexerBackgroundService>();
 

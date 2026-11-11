@@ -52,7 +52,8 @@ public class IndexWorker
 
     async Task PerformIterationAsync(ISourceRepository srcRepo, IDestinationRepository destRepo, CancellationToken ct)
     {
-        if (await idxLocker.TryLockAsync(idxDesc.Name, ct, out var idxLock))
+        var idxLock = await idxLocker.TryLockAsync(idxDesc.Name, ct);
+        if (idxLock != null)
         {
             var workLog = _log != null ? IndexingWorkingLog.Start(_log) : null;
 

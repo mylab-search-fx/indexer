@@ -35,15 +35,15 @@ public partial class LocalFileIndexConfigProviderBehavior
     }
 
     static LocalFileIndexDescProvider CreateProvider(string configPath) =>
-        new(new FixedWorkerOptions(new WorkerOptions { ConfigPath = configPath }));
+        new(new FixedWorkerOptions(new WorkerFileSystemOptions { ConfigPath = configPath }));
 
-    sealed class FixedWorkerOptions(WorkerOptions value) : IOptions<WorkerOptions>
+    sealed class FixedWorkerOptions(WorkerFileSystemOptions value) : IOptions<WorkerFileSystemOptions>
     {
-        public WorkerOptions Value => value;
+        public WorkerFileSystemOptions Value => value;
     }
 
-    sealed class MissingWorkerOptions : IOptions<WorkerOptions>
+    sealed class MissingWorkerOptions : IOptions<WorkerFileSystemOptions>
     {
-        public WorkerOptions Value => null!;
+        public WorkerFileSystemOptions Value => null!;
     }
 }

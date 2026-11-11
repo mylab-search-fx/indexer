@@ -8,10 +8,19 @@
 
   <ItemGroup>
     <PackageReference Include="NanoYaml" Version="0.1.2" />
+    <PackageReference Include="RedLock.net" Version="2.3.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Tools\" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<InternalsVisibleTo Include="MyLab.Search.Indexer.Infrastructure.UnitTests" />
+	</ItemGroup>
 
 </Project>

@@ -16,9 +16,8 @@ public partial class IndexWorkerOrchestratorBehavior
 
         public int MaxInFlight => Volatile.Read(ref _maxInFlight);
 
-        public Task<bool> TryLockAsync(string indexId, CancellationToken ct, out IIndexLock? unlocker)
+        public async Task<IIndexLock?> TryLockAsync(string indexId, CancellationToken ct)
         {
-            unlocker = null;
             var current = Interlocked.Increment(ref _inFlight);
 
             int priorPeak;
@@ -31,10 +30,12 @@ public partial class IndexWorkerOrchestratorBehavior
             if (current == workerCount)
                 _allEntered.TrySetResult();
 
-            return WaitUntilCancelledAsync(ct);
+            await WaitUntilCancelledAsync(ct);
+
+            return null;
         }
 
-        async Task<bool> WaitUntilCancelledAsync(CancellationToken cancellationToken)
+        async Task WaitUntilCancelledAsync(CancellationToken cancellationToken)
         {
             try
             {
@@ -42,14 +43,14 @@ public partial class IndexWorkerOrchestratorBehavior
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
-                return false;
+                return;
             }
             finally
             {
                 Interlocked.Decrement(ref _inFlight);
             }
 
-            return false;
+            return;
         }
     }
 

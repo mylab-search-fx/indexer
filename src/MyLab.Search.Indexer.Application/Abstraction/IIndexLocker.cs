@@ -2,7 +2,7 @@
 
 public interface IIndexLocker
 {
-    Task<bool> TryLockAsync(string indexId, CancellationToken ct, out IIndexLock? unlocker);
+    Task<IIndexLock?> TryLockAsync(string indexId, CancellationToken ct);
 }
 
 public interface IIndexLock : IAsyncDisposable
