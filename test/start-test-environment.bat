@@ -1,1 +1,0 @@
-docker-compose -p mylab-serach-indexer-test up -d

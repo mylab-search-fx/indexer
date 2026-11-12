@@ -1,4 +1,0 @@
-@host http://localhost:9200
-
-### Delete mylab indexes
-DELETE /.ml-*

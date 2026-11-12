@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "chai": "^4.3.7",
-    "chai-arrays": "^2.2.0",
-    "chai-datetime": "^1.8.0",
-    "crypto-js": "^4.1.1",
-    "uuid": "^9.0.0"
-  }
-}

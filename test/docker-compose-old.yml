@@ -1,0 +1,46 @@
+version: '3.2'
+
+services:
+  msindexer-es:
+    image: elasticsearch:7.17.9
+    container_name: msindexer-es
+    environment:
+      - discovery.type=single-node
+      - action.auto_create_index=.watches,.triggered_watches,.watcher-history-*
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  msindexer-mq:
+    container_name: msindexer-mq
+    image: rabbitmq:3.8.3-management
+    volumes:
+      - mq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  msindexer-db:
+    container_name: msindexer-db
+    image: mysql:8.0.19
+    environment:
+      - MYSQL_ROOT_PASSWORD=root-pass
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=pass
+      - MYSQL_DATABASE=test
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  es_data:
+  mq_data:
+  db_data:
