@@ -1,8 +1,9 @@
-﻿using System.Net;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using MyLab.Search.Indexer.Application.Abstraction;
 using RedLockNet.SERedis;
 using RedLockNet.SERedis.Configuration;
+using StackExchange.Redis;
+using System.Net;
 
 namespace MyLab.Search.Indexer.Infrastructure.Redis;
 
@@ -26,12 +27,18 @@ class RedlockIndexLocker : IIndexLocker, IDisposable
             throw new InvalidOperationException("Wrong RedlockExpirySec");
 
         _expiry = TimeSpan.FromSeconds(opts.Value.RedlockExpirySec);
-        
-        var endPoints = new List<RedLockEndPoint>
+
+        var config = new ConfigurationOptions
         {
-            new DnsEndPoint(opts.Value.Host, opts.Value.Port)
+            EndPoints = { { "redis-host", 6379 } },
+            User = "your-username",      // Имя пользователя Redis ACL
+            Password = "your-password",  // Пароль
+            Ssl = true                   // При необходимости
         };
-        
+
+        var multiplexer = ConnectionMultiplexer.Connect(config);
+        var multiplexers = new List<RedLockMultiplexer> { multiplexer };
+
         _redlockFactory = RedLockFactory.Create(endPoints);
     }
     

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure.UnitTests", "MyLab.Search.Indexer.Infrastructure.UnitTests\MyLab.Search.Indexer.Infrastructure.UnitTests.csproj", "{3074581F-0D26-4E5C-B035-EACDA1C4C053}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.IntegrationTests", "Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj", "{1ACE74D3-76D9-4BEE-A5DB-25E7E6F0548C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{3074581F-0D26-4E5C-B035-EACDA1C4C053}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3074581F-0D26-4E5C-B035-EACDA1C4C053}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3074581F-0D26-4E5C-B035-EACDA1C4C053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ACE74D3-76D9-4BEE-A5DB-25E7E6F0548C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ACE74D3-76D9-4BEE-A5DB-25E7E6F0548C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ACE74D3-76D9-4BEE-A5DB-25E7E6F0548C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ACE74D3-76D9-4BEE-A5DB-25E7E6F0548C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
