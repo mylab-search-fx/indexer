@@ -6,5 +6,5 @@ public interface IIndexVersionController
 {
     string CalculateVersion(IndexDescription idxDesc);
     
-    Task<bool> CheckoutVersionAsync(string actualVersion);
+    Task<bool> CheckoutVersionAsync(string actualVersion, CancellationToken ct);
 }

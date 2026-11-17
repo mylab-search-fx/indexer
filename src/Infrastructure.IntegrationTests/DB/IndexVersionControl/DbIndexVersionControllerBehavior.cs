@@ -14,7 +14,7 @@ public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixtu
         var version = "script-alpha";
 
         // Act
-        var accepted = await controller.CheckoutVersionAsync(version);
+        var accepted = await controller.CheckoutVersionAsync(version, CancellationToken.None);
 
         var stored = await ReadVersionsAsync(db);
 
@@ -36,7 +36,7 @@ public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixtu
         var version = "script-beta";
 
         // Act
-        var accepted = await controller.CheckoutVersionAsync(version);
+        var accepted = await controller.CheckoutVersionAsync(version, CancellationToken.None);
 
         var stored = await ReadVersionsAsync(db);
 
@@ -59,7 +59,7 @@ public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixtu
         var controller = new DbIndexVersionController(db);
 
         // Act
-        var accepted = await controller.CheckoutVersionAsync("script-beta");
+        var accepted = await controller.CheckoutVersionAsync("script-beta", CancellationToken.None);
 
         var stored = await ReadVersionsAsync(db);
 
@@ -80,7 +80,7 @@ public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixtu
         var controller = new DbIndexVersionController(db);
 
         // Act
-        var accepted = await controller.CheckoutVersionAsync("script-alpha");
+        var accepted = await controller.CheckoutVersionAsync("script-alpha", CancellationToken.None);
 
         var stored = await ReadVersionsAsync(db);
 

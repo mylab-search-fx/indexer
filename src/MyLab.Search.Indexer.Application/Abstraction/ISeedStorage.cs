@@ -2,7 +2,7 @@
 {
     public interface ISeedStorage
     {
-        Task<long> GetAsync(string idxId);
-        Task SetAsync(string idxId, long seed);
+        Task<long> GetAsync(string idxId, CancellationToken ct);
+        Task SetAsync(string idxId, long seed, CancellationToken ct);
     }
 }

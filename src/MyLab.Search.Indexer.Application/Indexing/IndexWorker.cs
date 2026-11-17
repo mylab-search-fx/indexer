@@ -30,7 +30,7 @@ public class IndexWorker
 
         while (!ct.IsCancellationRequested)
         {
-            var idxVersionOk = await idxVerCtrlr.CheckoutVersionAsync(idxVer);
+            var idxVersionOk = await idxVerCtrlr.CheckoutVersionAsync(idxVer, ct);
 
             if (!idxVersionOk)
             {
@@ -60,7 +60,7 @@ public class IndexWorker
             await using (idxLock)
             {
                 bool yetLocked;
-                var seed = await seedStorage.GetAsync(idxDesc.Name);
+                var seed = await seedStorage.GetAsync(idxDesc.Name, ct);
                 SourceData readData;
 
                 do
@@ -70,7 +70,7 @@ public class IndexWorker
                     if (readData.NewSeed.HasValue)
                     {
                         seed = readData.NewSeed.Value;
-                        await seedStorage.SetAsync(idxDesc.Name, readData.NewSeed.Value);
+                        await seedStorage.SetAsync(idxDesc.Name, readData.NewSeed.Value, ct);
                     }
 
                     workLog?.ReportNextPage(readData.Count);

@@ -17,13 +17,13 @@ class DbIndexVersionController(IDbManager dbMgr)  : IIndexVersionController
         return Convert.ToHexStringLower(hash).Replace("-", "");
     }
 
-    public async Task<bool> CheckoutVersionAsync(string actualVersion)
+    public async Task<bool> CheckoutVersionAsync(string actualVersion, CancellationToken ct)
     {
         await using var db = dbMgr.Use();
 
         bool exists = await db
             .Tab<IndexVersion>()
-            .AnyAsync(v => v.Value == actualVersion);
+            .AnyAsync(v => v.Value == actualVersion, token: ct);
 
         if (!exists)
         {
@@ -33,7 +33,7 @@ class DbIndexVersionController(IDbManager dbMgr)  : IIndexVersionController
                 {
                     Registered = DateTime.Now,
                     Value = actualVersion
-                });
+                }, token: ct);
 
             return inserted != 0;
         }
@@ -42,7 +42,7 @@ class DbIndexVersionController(IDbManager dbMgr)  : IIndexVersionController
             .Tab<IndexVersion>()
             .OrderByDescending(v => v.Registered)
             .Select(v => v.Value)
-            .FirstAsync();
+            .FirstAsync(token: ct);
 
         return latestVersion == actualVersion;
     }
