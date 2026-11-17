@@ -2,7 +2,7 @@ using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Application.Indexing;
 using Xunit.Abstractions;
 
-namespace MyLab.Search.Indexer.Application.UnitTests.Indexing;
+namespace Application.UnitTests.Indexing;
 
 public partial class IndexWorkerOrchestratorBehavior(ITestOutputHelper output)
 {

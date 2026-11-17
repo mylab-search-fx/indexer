@@ -1,9 +1,7 @@
 using Microsoft.Extensions.Options;
-using MyLab.Search.Indexer.Application.Indexing;
-using MyLab.Search.Indexer.Application.Options;
 using MyLab.Search.Indexer.Infrastructure.FileSystem;
 
-namespace MyLab.Search.Indexer.Infrastructure.UnitTests.FileSystem;
+namespace Infrastructure.UnitTests.FileSystem;
 
 public partial class LocalFileIndexConfigProviderBehavior
 {

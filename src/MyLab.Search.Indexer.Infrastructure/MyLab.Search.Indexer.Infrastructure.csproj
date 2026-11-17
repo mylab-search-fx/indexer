@@ -23,7 +23,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<InternalsVisibleTo Include="MyLab.Search.Indexer.Infrastructure.UnitTests" />
+		<InternalsVisibleTo Include="Infrastructure.UnitTests" />
 		<InternalsVisibleTo Include="Infrastructure.IntegrationTests" />
 	</ItemGroup>
 

@@ -7,13 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Worker
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Application", "MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj", "{43B31FCB-675D-462E-A85A-3D8F1064F834}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Application.UnitTests", "MyLab.Search.Indexer.Application.UnitTests\MyLab.Search.Indexer.Application.UnitTests.csproj", "{5D47E8B3-5AF5-48B5-A172-A172F913963B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application.UnitTests", "Application.UnitTests\Application.UnitTests.csproj", "{5D47E8B3-5AF5-48B5-A172-A172F913963B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure", "MyLab.Search.Indexer.Infrastructure\MyLab.Search.Indexer.Infrastructure.csproj", "{04A019ED-402E-42CD-B3F4-3EFD343457B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure.UnitTests", "MyLab.Search.Indexer.Infrastructure.UnitTests\MyLab.Search.Indexer.Infrastructure.UnitTests.csproj", "{3074581F-0D26-4E5C-B035-EACDA1C4C053}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.UnitTests", "Infrastructure.UnitTests\Infrastructure.UnitTests.csproj", "{3074581F-0D26-4E5C-B035-EACDA1C4C053}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.IntegrationTests", "Infrastructure.IntegrationTests\Infrastructure.IntegrationTests.csproj", "{1ACE74D3-76D9-4BEE-A5DB-25E7E6F0548C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BD022CCB-723F-4DA4-B982-160DD277920C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -48,6 +50,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{5D47E8B3-5AF5-48B5-A172-A172F913963B} = {BD022CCB-723F-4DA4-B982-160DD277920C}
+		{3074581F-0D26-4E5C-B035-EACDA1C4C053} = {BD022CCB-723F-4DA4-B982-160DD277920C}
+		{1ACE74D3-76D9-4BEE-A5DB-25E7E6F0548C} = {BD022CCB-723F-4DA4-B982-160DD277920C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D8B5B12-8CB3-428C-98FE-D4EC8556EAC3}

@@ -3,7 +3,7 @@ using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Application.Data;
 using MyLab.Search.Indexer.Application.Indexing;
 
-namespace MyLab.Search.Indexer.Application.UnitTests.Indexing;
+namespace Application.UnitTests.Indexing;
 
 public partial class IndexWorkerBehavior
 {

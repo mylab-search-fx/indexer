@@ -3,7 +3,7 @@ using MyLab.Db;
 using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Infrastructure.DB.IndexVersionControl;
 
-namespace MyLab.Search.Indexer.Infrastructure.UnitTests.DB.IndexVersionControl;
+namespace Infrastructure.UnitTests.DB.IndexVersionControl;
 
 public class DbIndexVersionControllerBehavior
 {

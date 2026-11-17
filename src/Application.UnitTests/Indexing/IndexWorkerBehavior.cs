@@ -1,4 +1,4 @@
-namespace MyLab.Search.Indexer.Application.UnitTests.Indexing;
+namespace Application.UnitTests.Indexing;
 
 public partial class IndexWorkerBehavior
 {

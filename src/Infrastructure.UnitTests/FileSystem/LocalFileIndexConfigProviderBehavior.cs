@@ -1,9 +1,8 @@
 using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Infrastructure.FileSystem;
 using Vaxquis.NanoYaml;
-using YamlDotNet.Core;
 
-namespace MyLab.Search.Indexer.Infrastructure.UnitTests.FileSystem;
+namespace Infrastructure.UnitTests.FileSystem;
 
 public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 {
