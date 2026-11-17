@@ -1,6 +1,6 @@
 ﻿using LinqToDB.Mapping;
 
-namespace MyLab.Search.Indexer.Infrastructure.DB.IndexVersionControl;
+namespace MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 
 [Table("version")]
 public class IndexVersion

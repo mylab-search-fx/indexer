@@ -3,7 +3,7 @@ using LinqToDB.Async;
 using MyLab.Db;
 using MyLab.Search.Indexer.Application.Abstraction;
 
-namespace MyLab.Search.Indexer.Infrastructure.DB.SeedStorage;
+namespace MyLab.Search.Indexer.Infrastructure.Database.SeedStorage;
 
 class DbSeedStorage(IDbManager db) : ISeedStorage
 {

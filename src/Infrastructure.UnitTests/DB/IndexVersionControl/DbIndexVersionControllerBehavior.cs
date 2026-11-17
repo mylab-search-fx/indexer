@@ -1,7 +1,7 @@
 ﻿using Moq;
 using MyLab.Db;
 using MyLab.Search.Indexer.Application.Config;
-using MyLab.Search.Indexer.Infrastructure.DB.IndexVersionControl;
+using MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 
 namespace Infrastructure.UnitTests.DB.IndexVersionControl;
 

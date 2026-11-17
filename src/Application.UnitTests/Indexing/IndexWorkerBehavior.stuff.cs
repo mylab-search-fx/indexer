@@ -82,7 +82,7 @@ public partial class IndexWorkerBehavior
                 return fixture.Version;
             }
 
-            public Task<bool> CheckoutVersionAsync(string actualVersion)
+            public Task<bool> CheckoutVersionAsync(string actualVersion, CancellationToken ct)
             {
                 fixture.CheckedOutVersions.Add(actualVersion);
                 var ok = fixture._versionOk.Count > 0 && fixture._versionOk.Dequeue();
@@ -155,13 +155,13 @@ public partial class IndexWorkerBehavior
 
         sealed class SeedStore(Fixture fixture) : ISeedStorage
         {
-            public Task<long> GetAsync(string idxId)
+            public Task<long> GetAsync(string idxId, CancellationToken ct)
             {
                 fixture.LoadedSeedIndexes.Add(idxId);
                 return Task.FromResult(fixture.Seed);
             }
 
-            public Task SetAsync(string idxId, long seed)
+            public Task SetAsync(string idxId, long seed, CancellationToken ct)
             {
                 fixture.SavedSeedIndexes.Add(idxId);
                 fixture.SavedSeeds.Add(seed);

@@ -3,10 +3,10 @@ using LinqToDB.Async;
 using LinqToDB.Data;
 using MyLab.Db;
 using MyLab.DbTest;
-using MyLab.Search.Indexer.Infrastructure.DB.SeedStorage;
+using MyLab.Search.Indexer.Infrastructure.Database.SeedStorage;
 using Xunit.Abstractions;
 
-namespace Infrastructure.IntegrationTests.DB.SeedStorage;
+namespace Infrastructure.Database.IntegrationTests.SeedStorage;
 
 public partial class DbSeedStorageBehavior
 {

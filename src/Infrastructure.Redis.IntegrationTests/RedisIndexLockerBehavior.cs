@@ -2,7 +2,7 @@ using MyLab.Redis.Options;
 using MyLab.Search.Indexer.Infrastructure.Redis;
 using Xunit.Abstractions;
 
-namespace Infrastructure.IntegrationTests.Redis;
+namespace Infrastructure.Redis.IntegrationTests;
 
 public class RedisIndexLockerBehavior(ITestOutputHelper output)
 {
@@ -57,7 +57,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
         await using var redis = opened;
         var indexId = redis.NewIndexId();
         var locker = new RedisIndexLocker(redis.Service, redis.Logger);
-        await using var held = await locker.TryLockAsync(indexId, CancellationToken.None);
+        var held = await locker.TryLockAsync(indexId, CancellationToken.None);
         if (!held.Locked)
             throw new InvalidOperationException("Index was not locked.");
 

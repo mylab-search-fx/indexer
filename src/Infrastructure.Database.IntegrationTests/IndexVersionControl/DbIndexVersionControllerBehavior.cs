@@ -1,7 +1,7 @@
 ﻿using MyLab.DbTest;
-using MyLab.Search.Indexer.Infrastructure.DB.IndexVersionControl;
+using MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 
-namespace Infrastructure.IntegrationTests.DB.IndexVersionControl;
+namespace Infrastructure.Database.IntegrationTests.IndexVersionControl;
 
 public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixture<VersionsTableInitializer>>
 {

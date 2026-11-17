@@ -11,5 +11,14 @@ services:
     ports:
     - 16379:6379
 
+  db:
+    container_name: db
+    image: mariadb:11.8.9
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+    volumes:
+    - mariadb-data:/var/lib/mysql
+
 volumes:
   redis-data:
+  mariadb-data:

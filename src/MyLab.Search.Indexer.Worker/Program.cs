@@ -1,13 +1,14 @@
 using MyLab.Log;
 using MyLab.Search.Indexer.Application;
-using MyLab.Search.Indexer.Infrastructure;
 using MyLab.Search.Indexer.Worker.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddIndexerAppLogic(builder.Configuration)
-    .AddIndexerInfrastructure(builder.Configuration)
+    .AddRedisInfrastructure(builder.Configuration)
+    .AddFileSystemInfrastructure(builder.Configuration)
+    .AddDatabaseInfrastructure(builder.Configuration)
     .AddLogging(c => c.AddMyLabConsole())
     .AddHostedService<IndexerBackgroundService>();
 

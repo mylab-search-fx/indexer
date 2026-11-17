@@ -6,7 +6,7 @@ using MyLab.Db;
 using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Config;
 
-namespace MyLab.Search.Indexer.Infrastructure.DB.IndexVersionControl;
+namespace MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 
 class DbIndexVersionController(IDbManager dbMgr)  : IIndexVersionController
 {

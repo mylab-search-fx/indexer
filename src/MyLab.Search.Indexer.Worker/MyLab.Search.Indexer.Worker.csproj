@@ -13,7 +13,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj" />
-    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure\MyLab.Search.Indexer.Infrastructure.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.Database\MyLab.Search.Indexer.Infrastructure.Database.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.FileSystem\MyLab.Search.Indexer.Infrastructure.FileSystem.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.Opensearch\MyLab.Search.Indexer.Infrastructure.Opensearch.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.Redis\MyLab.Search.Indexer.Infrastructure.Redis.csproj" />
   </ItemGroup>
 
 </Project>

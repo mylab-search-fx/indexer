@@ -27,4 +27,11 @@
 		<InternalsVisibleTo Include="Infrastructure.IntegrationTests" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="DB\" />
+	  <Folder Include="FileSystem\" />
+	  <Folder Include="Opensearch\" />
+	  <Folder Include="Redis\" />
+	</ItemGroup>
+
 </Project>

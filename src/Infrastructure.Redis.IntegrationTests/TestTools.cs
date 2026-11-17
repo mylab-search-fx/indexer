@@ -6,11 +6,10 @@ using MyLab.Log.XUnit;
 using MyLab.Redis;
 using MyLab.Redis.Abstractions;
 using MyLab.Redis.Options;
-using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Infrastructure.Redis;
 using Xunit.Abstractions;
 
-namespace Infrastructure.IntegrationTests;
+namespace Infrastructure.Redis.IntegrationTests;
 
 static class TestTools
 {

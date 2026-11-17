@@ -3,5 +3,5 @@
 public record IndexConfig(
         int PageSize = 500,
         int Idle = 5 * 60, //sec
-        string SeepField = "Seed"
+        string SeedField = "Seed"
     );

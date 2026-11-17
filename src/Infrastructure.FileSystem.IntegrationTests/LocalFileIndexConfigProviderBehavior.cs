@@ -2,7 +2,7 @@ using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Infrastructure.FileSystem;
 using Vaxquis.NanoYaml;
 
-namespace Infrastructure.UnitTests.FileSystem;
+namespace Infrastructure.FileSystem.IntegrationTests;
 
 public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 {
@@ -61,7 +61,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
             "select id from orders where seed > @seed",
             """
             PageSize: 25
-            SeepField: UpdatedAt
+            SeedField: UpdatedAt
             """);
         var provider = CreateProvider(root);
 
@@ -70,7 +70,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 
         // Assert
         Assert.Equal(
-            [new IndexDescription("orders", "select id from orders where seed > @seed", new IndexConfig(25, SeepField:"UpdatedAt"))],
+            [new IndexDescription("orders", "select id from orders where seed > @seed", new IndexConfig(25, SeedField:"UpdatedAt"))],
             result);
     }
 
@@ -87,7 +87,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
 
         // Assert
         var config = Assert.Single(result);
-        Assert.Equal(new IndexConfig(25, SeepField:"Seed"), config.Config);
+        Assert.Equal(new IndexConfig(25, SeedField:"Seed"), config.Config);
     }
 
     [Fact]
@@ -147,7 +147,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
     {
         // Arrange
         var root = CreateConfigRoot();
-        WriteIndex(root, "beta", "select b", "PageSize: 10\nSeepField: B\n");
+        WriteIndex(root, "beta", "select b", "PageSize: 10\nSeedField: B\n");
         WriteIndex(root, "alpha", "select a");
         var provider = CreateProvider(root);
 
@@ -158,7 +158,7 @@ public partial class LocalFileIndexConfigProviderBehavior : IDisposable
         Assert.Equal(
             [
                 new IndexDescription("alpha", "select a", new IndexConfig()),
-                new IndexDescription("beta", "select b", new IndexConfig(10, SeepField : "B"))
+                new IndexDescription("beta", "select b", new IndexConfig(10, SeedField : "B"))
             ],
             result.OrderBy(config => config.Name, StringComparer.Ordinal).ToArray());
     }

@@ -3,10 +3,10 @@ using LinqToDB.Async;
 using LinqToDB.Data;
 using MyLab.Db;
 using MyLab.DbTest;
-using MyLab.Search.Indexer.Infrastructure.DB.IndexVersionControl;
+using MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 using Xunit.Abstractions;
 
-namespace Infrastructure.IntegrationTests.DB.IndexVersionControl;
+namespace Infrastructure.Database.IntegrationTests.IndexVersionControl;
 
 public partial class DbIndexVersionControllerBehavior
 {

@@ -85,7 +85,7 @@ public partial class IndexWorkerOrchestratorBehavior
 
         public string CalculateVersion(IndexDescription idxDesc) => "v1";
 
-        public Task<bool> CheckoutVersionAsync(string actualVersion) => Task.FromResult(true);
+        public Task<bool> CheckoutVersionAsync(string actualVersion, CancellationToken ct) => Task.FromResult(true);
     }
 
     sealed class IdleSourceFactory : ISourceRepositoryFactory
@@ -122,10 +122,10 @@ public partial class IndexWorkerOrchestratorBehavior
     {
         public static readonly IdleSeedStorage Instance = new();
 
-        public Task<long> GetAsync(string idxId) =>
+        public Task<long> GetAsync(string idxId, CancellationToken ct) =>
             throw new InvalidOperationException("GetAsync is outside this test.");
 
-        public Task SetAsync(string idxId, long seed) =>
+        public Task SetAsync(string idxId, long seed, CancellationToken ct) =>
             throw new InvalidOperationException("SetAsync is outside this test.");
     }
 }
