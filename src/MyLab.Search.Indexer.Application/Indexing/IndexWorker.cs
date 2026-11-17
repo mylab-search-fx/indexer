@@ -57,7 +57,7 @@ public class IndexWorker
         {
             var workLog = _log != null ? IndexingWorkingLog.Start(_log) : null;
 
-            await using (idxLock!)
+            await using (idxLock)
             {
                 bool yetLocked;
                 var seed = await seedStorage.GetAsync(idxDesc.Name);
@@ -77,7 +77,7 @@ public class IndexWorker
 
                     await destRepo.WriteAsync(readData);
                     
-                    yetLocked = await idxLock!.HeartbeatAsync(ct);
+                    yetLocked = await idxLock.HeartbeatAsync(ct);
                 } while (readData.Full && yetLocked && !ct.IsCancellationRequested);
             }
             

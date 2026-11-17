@@ -103,6 +103,8 @@ public partial class IndexWorkerBehavior
 
         sealed class Lock(Fixture fixture) : IIndexLock
         {
+            public bool Locked => true;
+
             public Task<bool> HeartbeatAsync(CancellationToken ct)
             {
                 fixture.HeartbeatCount++;

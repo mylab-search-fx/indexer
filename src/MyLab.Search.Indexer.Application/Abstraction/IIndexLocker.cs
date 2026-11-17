@@ -2,10 +2,11 @@
 
 public interface IIndexLocker
 {
-    Task<IIndexLock?> TryLockAsync(string indexId, CancellationToken ct);
+    Task<IIndexLock> TryLockAsync(string indexId, CancellationToken ct);
 }
 
 public interface IIndexLock : IAsyncDisposable
 {
+    bool Locked { get; }
     Task<bool> HeartbeatAsync(CancellationToken ct);
 }
