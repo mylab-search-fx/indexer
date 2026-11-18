@@ -14,7 +14,7 @@ namespace Infrastructure.Database.IntegrationTests;
 static class TestTools
 {
     // Local MariaDB, user test / password test.
-    public const int Port = 3306;
+    public const int Port = 13306;
 
     public const string IndexerDatabase = "indexer_it";
 

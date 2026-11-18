@@ -21,8 +21,23 @@ services:
     volumes:
     - mariadb-data:/var/lib/mysql
     ports:
-    - 3306:3306
+    - 13306:3306
+
+  opensearch:
+    image: opensearchproject/opensearch:3.4.0
+    container_name: opensearch
+    environment:
+      discovery.type: single-node
+      node.name: opensearch
+      OPENSEARCH_JAVA_OPTS: "-Xms512m -Xmx512m"
+      OPENSEARCH_INITIAL_ADMIN_PASSWORD: test
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data
+    ports:
+    - 19200:9200 
+
 
 volumes:
   redis-data:
   mariadb-data:
+  opensearch-data:
