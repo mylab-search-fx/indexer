@@ -1,16 +1,15 @@
-using MyLab.DbTest;
 using MyLab.Search.Indexer.Infrastructure.Database.SeedStorage;
 
 namespace Infrastructure.Database.IntegrationTests.SeedStorage;
 
-public partial class DbSeedStorageBehavior : IClassFixture<TmpDbFixture<SeedTableInitializer>>
+[Collection(DatabaseCollection.Name)]
+public partial class DbSeedStorageBehavior : IAsyncLifetime
 {
     [Fact(Timeout = 10000)]
     public async Task ShouldReturnZeroWhenIndexHasNoSeed()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
-        var storage = new DbSeedStorage(db);
+        var storage = new DbSeedStorage(_db);
 
         // Act
         var seed = await storage.GetAsync("orders", CancellationToken.None);
@@ -23,10 +22,9 @@ public partial class DbSeedStorageBehavior : IClassFixture<TmpDbFixture<SeedTabl
     public async Task ShouldReturnSeedStoredForRequestedIndex()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
-        await StoreSeedAsync(db, "orders", 15);
-        await StoreSeedAsync(db, "customers", 40);
-        var storage = new DbSeedStorage(db);
+        await StoreSeedAsync(_db, "orders", 15);
+        await StoreSeedAsync(_db, "customers", 40);
+        var storage = new DbSeedStorage(_db);
 
         // Act
         var seed = await storage.GetAsync("orders", CancellationToken.None);
@@ -39,14 +37,13 @@ public partial class DbSeedStorageBehavior : IClassFixture<TmpDbFixture<SeedTabl
     public async Task ShouldStoreSeedWhenIndexHasNone()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
-        await StoreSeedAsync(db, "customers", 40);
-        var storage = new DbSeedStorage(db);
+        await StoreSeedAsync(_db, "customers", 40);
+        var storage = new DbSeedStorage(_db);
 
         // Act
         await storage.SetAsync("orders", 15, CancellationToken.None);
 
-        var stored = await ReadSeedsAsync(db);
+        var stored = await ReadSeedsAsync(_db);
 
         // Assert
         Assert.Equal(2, stored.Length);
@@ -60,15 +57,14 @@ public partial class DbSeedStorageBehavior : IClassFixture<TmpDbFixture<SeedTabl
     public async Task ShouldReplaceSeedWhenIndexAlreadyHasOne()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
-        await StoreSeedAsync(db, "customers", 40);
-        await StoreSeedAsync(db, "orders", 15);
-        var storage = new DbSeedStorage(db);
+        await StoreSeedAsync(_db, "customers", 40);
+        await StoreSeedAsync(_db, "orders", 15);
+        var storage = new DbSeedStorage(_db);
 
         // Act
         await storage.SetAsync("orders", 90, CancellationToken.None);
 
-        var stored = await ReadSeedsAsync(db);
+        var stored = await ReadSeedsAsync(_db);
 
         // Assert
         Assert.Equal(2, stored.Length);

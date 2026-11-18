@@ -1,8 +1,7 @@
 using LinqToDB;
 using LinqToDB.Async;
-using LinqToDB.Data;
+using Microsoft.Extensions.DependencyInjection;
 using MyLab.Db;
-using MyLab.DbTest;
 using MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 using Xunit.Abstractions;
 
@@ -10,12 +9,23 @@ namespace Infrastructure.Database.IntegrationTests.IndexVersionControl;
 
 public partial class DbIndexVersionControllerBehavior
 {
-    readonly TmpDbFixture _db;
+    readonly ServiceProvider _app;
+    readonly IDbManager _db;
 
-    public DbIndexVersionControllerBehavior(ITestOutputHelper output, TmpDbFixture<VersionsTableInitializer> db)
+    public DbIndexVersionControllerBehavior(ITestOutputHelper output)
     {
-        db.Output = output;
-        _db = db;
+        _app = TestTools.CreateApp(output).BuildServiceProvider();
+        _db = _app.GetRequiredService<IDbManager>();
+    }
+
+    public async Task InitializeAsync()
+    {
+        await TestTools.ClearTestTablesAsync(_db);
+    }
+
+    public async Task DisposeAsync()
+    {
+        await _app.DisposeAsync();
     }
 
     static async Task StoreVersionAsync(IDbManager db, string value, DateTime registered)
@@ -29,20 +39,11 @@ public partial class DbIndexVersionControllerBehavior
         await connection.InsertAsync(row);
     }
 
-    static async Task<IndexVersion[]> ReadVersionsAsync(IDbManager db)
+    static Task<IndexVersion[]> ReadVersionsAsync(IDbManager db)
     {
-        await using var connection = db.Use();
-        var table = connection.Tab<IndexVersion>();
-        var query = table.OrderBy(row => row.Registered);
-        var rows = await query.ToArrayAsync();
-        return rows;
-    }
-}
-
-public sealed class VersionsTableInitializer : ITestDbInitializer
-{
-    public Task InitializeAsync(DataConnection dataConnection)
-    {
-        return dataConnection.CreateTableAsync<IndexVersion>();
+        return db.DoOnce()
+            .Tab<IndexVersion>()
+            .OrderBy(row => row.Registered)
+            .ToArrayAsync();
     }
 }

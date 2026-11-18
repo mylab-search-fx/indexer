@@ -1,8 +1,7 @@
 using LinqToDB;
 using LinqToDB.Async;
-using LinqToDB.Data;
+using Microsoft.Extensions.DependencyInjection;
 using MyLab.Db;
-using MyLab.DbTest;
 using MyLab.Search.Indexer.Infrastructure.Database.SeedStorage;
 using Xunit.Abstractions;
 
@@ -10,12 +9,23 @@ namespace Infrastructure.Database.IntegrationTests.SeedStorage;
 
 public partial class DbSeedStorageBehavior
 {
-    readonly TmpDbFixture _db;
+    readonly ServiceProvider _app;
+    readonly IDbManager _db;
 
-    public DbSeedStorageBehavior(ITestOutputHelper output, TmpDbFixture<SeedTableInitializer> db)
+    public DbSeedStorageBehavior(ITestOutputHelper output)
     {
-        db.Output = output;
-        _db = db;
+        _app = TestTools.CreateApp(output).BuildServiceProvider();
+        _db = _app.GetRequiredService<IDbManager>();
+    }
+
+    public async Task InitializeAsync()
+    {
+        await TestTools.ClearTestTablesAsync(_db);
+    }
+
+    public async Task DisposeAsync()
+    {
+        await _app.DisposeAsync();
     }
 
     static async Task StoreSeedAsync(IDbManager db, string indexId, long value)
@@ -29,20 +39,11 @@ public partial class DbSeedStorageBehavior
         await connection.InsertAsync(row);
     }
 
-    static async Task<IndexSeed[]> ReadSeedsAsync(IDbManager db)
+    static Task<IndexSeed[]> ReadSeedsAsync(IDbManager db)
     {
-        await using var connection = db.Use();
-        var table = connection.Tab<IndexSeed>();
-        var query = table.OrderBy(row => row.IndexId);
-        var rows = await query.ToArrayAsync();
-        return rows;
-    }
-}
-
-public sealed class SeedTableInitializer : ITestDbInitializer
-{
-    public Task InitializeAsync(DataConnection dataConnection)
-    {
-        return dataConnection.CreateTableAsync<IndexSeed>();
+        return db.DoOnce()
+            .Tab<IndexSeed>()
+            .OrderBy(row => row.IndexId)
+            .ToArrayAsync();
     }
 }

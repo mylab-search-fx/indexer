@@ -1,22 +1,21 @@
-﻿using MyLab.DbTest;
-using MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
+﻿using MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 
 namespace Infrastructure.Database.IntegrationTests.IndexVersionControl;
 
-public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixture<VersionsTableInitializer>>
+[Collection(DatabaseCollection.Name)]
+public partial class DbIndexVersionControllerBehavior : IAsyncLifetime
 {
     [Fact(Timeout = 10000)]
     public async Task ShouldAcceptVersionWhenItIsNotStoredYet()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
-        var controller = new DbIndexVersionController(db);
+        var controller = new DbIndexVersionController(_db);
         var version = "script-alpha";
 
         // Act
         var accepted = await controller.CheckoutVersionAsync(version, CancellationToken.None);
 
-        var stored = await ReadVersionsAsync(db);
+        var stored = await ReadVersionsAsync(_db);
 
         // Assert
         Assert.True(accepted);
@@ -29,16 +28,15 @@ public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixtu
     public async Task ShouldAcceptAndStoreVersionWhenOtherVersionsExist()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
         var earlier = new DateTime(2020, 1, 1);
-        await StoreVersionAsync(db, "script-alpha", earlier);
-        var controller = new DbIndexVersionController(db);
+        await StoreVersionAsync(_db, "script-alpha", earlier);
+        var controller = new DbIndexVersionController(_db);
         var version = "script-beta";
 
         // Act
         var accepted = await controller.CheckoutVersionAsync(version, CancellationToken.None);
 
-        var stored = await ReadVersionsAsync(db);
+        var stored = await ReadVersionsAsync(_db);
 
         // Assert
         Assert.True(accepted);
@@ -53,15 +51,14 @@ public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixtu
     public async Task ShouldAcceptVersionWhenItIsTheLatestStored()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
-        await StoreVersionAsync(db, "script-alpha", new DateTime(2020, 1, 1));
-        await StoreVersionAsync(db, "script-beta", new DateTime(2024, 6, 1));
-        var controller = new DbIndexVersionController(db);
+        await StoreVersionAsync(_db, "script-alpha", new DateTime(2020, 1, 1));
+        await StoreVersionAsync(_db, "script-beta", new DateTime(2024, 6, 1));
+        var controller = new DbIndexVersionController(_db);
 
         // Act
         var accepted = await controller.CheckoutVersionAsync("script-beta", CancellationToken.None);
 
-        var stored = await ReadVersionsAsync(db);
+        var stored = await ReadVersionsAsync(_db);
 
         // Assert
         Assert.True(accepted);
@@ -74,15 +71,14 @@ public partial class DbIndexVersionControllerBehavior : IClassFixture<TmpDbFixtu
     public async Task ShouldRejectVersionWhenANewerOneIsStored()
     {
         // Arrange
-        var db = await _db.CreateDbAsync();
-        await StoreVersionAsync(db, "script-alpha", new DateTime(2020, 1, 1));
-        await StoreVersionAsync(db, "script-beta", new DateTime(2024, 6, 1));
-        var controller = new DbIndexVersionController(db);
+        await StoreVersionAsync(_db, "script-alpha", new DateTime(2020, 1, 1));
+        await StoreVersionAsync(_db, "script-beta", new DateTime(2024, 6, 1));
+        var controller = new DbIndexVersionController(_db);
 
         // Act
         var accepted = await controller.CheckoutVersionAsync("script-alpha", CancellationToken.None);
 
-        var stored = await ReadVersionsAsync(db);
+        var stored = await ReadVersionsAsync(_db);
 
         // Assert
         Assert.False(accepted);
