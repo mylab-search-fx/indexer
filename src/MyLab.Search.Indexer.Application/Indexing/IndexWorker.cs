@@ -53,7 +53,7 @@ public class IndexWorker
     async Task PerformIterationAsync(ISourceRepository srcRepo, IDestinationRepository destRepo, CancellationToken ct)
     {
         var idxLock = await idxLocker.TryLockAsync(idxDesc.Name, ct);
-        if (idxLock != null)
+        if (idxLock.Locked)
         {
             var workLog = _log != null ? IndexingWorkingLog.Start(_log) : null;
 
@@ -67,7 +67,7 @@ public class IndexWorker
                 {
                     readData = await srcRepo.ReadAsync(seed, ct);
 
-                    if (readData.NewSeed.HasValue)
+                    if (readData.NewSeed.HasValue && readData.NewSeed.Value != seed)
                     {
                         seed = readData.NewSeed.Value;
                         await seedStorage.SetAsync(idxDesc.Name, readData.NewSeed.Value, ct);

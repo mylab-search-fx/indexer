@@ -5,4 +5,5 @@ public class SourceData
     public int Count { get; set; }
     public long? NewSeed { get; set; }
     public bool Full { get; set; }
+    public required SourceDataItem[] Items { get; set; }
 }

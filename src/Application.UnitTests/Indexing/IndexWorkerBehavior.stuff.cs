@@ -59,7 +59,8 @@ public partial class IndexWorkerBehavior
             {
                 Count = count,
                 Full = full,
-                NewSeed = newSeed
+                NewSeed = newSeed,
+                Items = Array.Empty<SourceDataItem>()
             };
             _pages.Enqueue(page);
             return page;

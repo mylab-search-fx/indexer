@@ -1,4 +1,6 @@
-﻿namespace MyLab.Search.Indexer.Application.Abstraction
+﻿using MyLab.Search.Indexer.Application.Data;
+
+namespace MyLab.Search.Indexer.Application.Abstraction
 {
     public interface ISeedStorage
     {
