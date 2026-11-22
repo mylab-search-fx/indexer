@@ -19,13 +19,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infras
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure.FileSystem", "MyLab.Search.Indexer.Infrastructure.FileSystem\MyLab.Search.Indexer.Infrastructure.FileSystem.csproj", "{925403DD-8078-45A5-A1CE-23146980AC03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure.Opensearch", "MyLab.Search.Indexer.Infrastructure.Opensearch\MyLab.Search.Indexer.Infrastructure.Opensearch.csproj", "{D14198FD-4E1B-48B4-8E48-A86BB70CEF56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyLab.Search.Indexer.Infrastructure.OpenSearch", "MyLab.Search.Indexer.Infrastructure.OpenSearch\MyLab.Search.Indexer.Infrastructure.OpenSearch.csproj", "{D14198FD-4E1B-48B4-8E48-A86BB70CEF56}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Redis.IntegrationTests", "Infrastructure.Redis.IntegrationTests\Infrastructure.Redis.IntegrationTests.csproj", "{A1C64444-FA8D-41E4-8396-43807653E761}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Database.IntegrationTests", "Infrastructure.Database.IntegrationTests\Infrastructure.Database.IntegrationTests.csproj", "{10893C22-AEE4-4E85-9716-3FEF2BD67FCC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.FileSystem.IntegrationTests", "Infrastructure.FileSystem.IntegrationTests\Infrastructure.FileSystem.IntegrationTests.csproj", "{9B306A6C-3733-48F1-BE85-877A16AB951F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.OpenSearch.IntegrationTests", "Infrastructure.OpenSearch.IntegrationTests\Infrastructure.OpenSearch.IntegrationTests.csproj", "{D9721FA9-3526-475A-8797-21E9DE440E62}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,6 +79,10 @@ Global
 		{9B306A6C-3733-48F1-BE85-877A16AB951F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B306A6C-3733-48F1-BE85-877A16AB951F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B306A6C-3733-48F1-BE85-877A16AB951F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9721FA9-3526-475A-8797-21E9DE440E62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9721FA9-3526-475A-8797-21E9DE440E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9721FA9-3526-475A-8797-21E9DE440E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9721FA9-3526-475A-8797-21E9DE440E62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{A1C64444-FA8D-41E4-8396-43807653E761} = {BD022CCB-723F-4DA4-B982-160DD277920C}
 		{10893C22-AEE4-4E85-9716-3FEF2BD67FCC} = {BD022CCB-723F-4DA4-B982-160DD277920C}
 		{9B306A6C-3733-48F1-BE85-877A16AB951F} = {BD022CCB-723F-4DA4-B982-160DD277920C}
+		{D9721FA9-3526-475A-8797-21E9DE440E62} = {BD022CCB-723F-4DA4-B982-160DD277920C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D8B5B12-8CB3-428C-98FE-D4EC8556EAC3}

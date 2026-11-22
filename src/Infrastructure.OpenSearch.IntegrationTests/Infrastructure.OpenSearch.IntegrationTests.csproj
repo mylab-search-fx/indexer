@@ -9,29 +9,21 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="11.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-    <PackageReference Include="MyLab.DbTest" Version="1.1.2" />
     <PackageReference Include="MyLab.Log.XUnit" Version="1.1.1" />
-    <PackageReference Include="MyLab.Redis" Version="2.1.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj" />
-    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.Redis\MyLab.Search.Indexer.Infrastructure.Redis.csproj" />
-    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure\MyLab.Search.Indexer.Infrastructure.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.OpenSearch\MyLab.Search.Indexer.Infrastructure.OpenSearch.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DB\" />
-    <Folder Include="Redis\" />
   </ItemGroup>
 
 </Project>

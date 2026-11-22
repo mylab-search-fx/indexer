@@ -7,11 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OpenSearch.Client" Version="2.3.0" />
+    <PackageReference Include="MyLab.OpenSearch" Version="0.2.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Infrastructure.UnitTests" />
+    <InternalsVisibleTo Include="Infrastructure.OpenSearch.IntegrationTests" />
   </ItemGroup>
 
 </Project>

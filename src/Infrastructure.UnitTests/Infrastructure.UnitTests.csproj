@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="11.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="Moq" Version="4.21.0" />
     <PackageReference Include="MyLab.Db" Version="1.5.6" />
@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyLab.Search.Indexer.Application\MyLab.Search.Indexer.Application.csproj" />
     <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.Database\MyLab.Search.Indexer.Infrastructure.Database.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.OpenSearch\MyLab.Search.Indexer.Infrastructure.OpenSearch.csproj" />
   </ItemGroup>
 
   <ItemGroup>
