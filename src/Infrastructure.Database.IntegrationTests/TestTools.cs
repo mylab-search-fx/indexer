@@ -87,8 +87,9 @@ static class TestTools
     static string DatabaseConnectionString(string database) =>
         $"Server=127.0.0.1;Port={Port};Database={database};User ID=test;Password=test;SslMode=None;AllowPublicKeyRetrieval=True";
 
+    // Root from docker-compose MYSQL_ROOT_PASSWORD. User test is created with USAGE only.
     static string ServerConnectionString() =>
-        $"Server=127.0.0.1;Port={Port};User ID=test;Password=test;SslMode=None;AllowPublicKeyRetrieval=True";
+        $"Server=127.0.0.1;Port={Port};User ID=root;Password=test;SslMode=None;AllowPublicKeyRetrieval=True";
 
     public static void ClearPools() => MySqlConnection.ClearAllPools();
 }

@@ -30,6 +30,8 @@ public sealed class GlobalTestFixture : IAsyncLifetime
             await server.ExecuteAsync($"DROP DATABASE IF EXISTS `{TestTools.SourceDatabase}`");
             await server.ExecuteAsync(
                 $"CREATE DATABASE `{TestTools.SourceDatabase}` CHARACTER SET utf8mb4");
+            await GrantTestUserAsync(server, TestTools.IndexerDatabase);
+            await GrantTestUserAsync(server, TestTools.SourceDatabase);
         }
 
         await using var indexer = db.Use();
@@ -48,4 +50,8 @@ public sealed class GlobalTestFixture : IAsyncLifetime
         await server.ExecuteAsync($"DROP DATABASE IF EXISTS `{TestTools.IndexerDatabase}`");
         await server.ExecuteAsync($"DROP DATABASE IF EXISTS `{TestTools.SourceDatabase}`");
     }
+
+    static Task GrantTestUserAsync(DataConnection server, string database) =>
+        server.ExecuteAsync(
+            $"GRANT ALL PRIVILEGES ON `{database}`.* TO 'test'@'%'");
 }
