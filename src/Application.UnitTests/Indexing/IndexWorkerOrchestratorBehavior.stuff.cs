@@ -16,7 +16,7 @@ public partial class IndexWorkerOrchestratorBehavior
 
         public int MaxInFlight => Volatile.Read(ref _maxInFlight);
 
-        public async Task<IIndexLock?> TryLockAsync(string indexId, CancellationToken ct)
+        public async Task<IIndexLock> TryLockAsync(string indexId, CancellationToken ct)
         {
             var current = Interlocked.Increment(ref _inFlight);
 
@@ -32,7 +32,17 @@ public partial class IndexWorkerOrchestratorBehavior
 
             await WaitUntilCancelledAsync(ct);
 
-            return null;
+            return new RefusedLock();
+        }
+
+        sealed class RefusedLock : IIndexLock
+        {
+            public bool Locked => false;
+
+            public Task<bool> HeartbeatAsync(CancellationToken ct) =>
+                Task.FromException<bool>(new InvalidOperationException("Index is not locked."));
+
+            public ValueTask DisposeAsync() => ValueTask.CompletedTask;
         }
 
         async Task WaitUntilCancelledAsync(CancellationToken cancellationToken)

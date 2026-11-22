@@ -93,13 +93,23 @@ public partial class IndexWorkerBehavior
 
         sealed class Locker(Fixture fixture) : IIndexLocker
         {
-            public Task<IIndexLock?> TryLockAsync(string indexId, CancellationToken ct)
+            public Task<IIndexLock> TryLockAsync(string indexId, CancellationToken ct)
             {
                 fixture.LockedIndexes.Add(indexId);
                 var granted = fixture._lockGrants.Count == 0 || fixture._lockGrants.Dequeue();
-                var res = granted ? (IIndexLock)new Lock(fixture) : null;
+                IIndexLock res = granted ? new Lock(fixture) : new RefusedLock();
                 return Task.FromResult(res);
             }
+        }
+
+        sealed class RefusedLock : IIndexLock
+        {
+            public bool Locked => false;
+
+            public Task<bool> HeartbeatAsync(CancellationToken ct) =>
+                Task.FromException<bool>(new InvalidOperationException("Index is not locked."));
+
+            public ValueTask DisposeAsync() => ValueTask.CompletedTask;
         }
 
         sealed class Lock(Fixture fixture) : IIndexLock
