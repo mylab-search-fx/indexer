@@ -7,6 +7,6 @@ public class IndexSeed
 {
     [Column("idx", IsPrimaryKey = true, Length = 255)]
     public required string IndexId { get; set; }
-    [Column("value")]
+    [Column("val")]
     public long Value { get; set; }
 }

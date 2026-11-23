@@ -18,6 +18,7 @@
 	<ItemGroup>
 		<InternalsVisibleTo Include="Infrastructure.Database.IntegrationTests" />
 		<InternalsVisibleTo Include="Infrastructure.UnitTests" />
+		<InternalsVisibleTo Include="Worker.IntegrationTests" />
 	</ItemGroup>
 
 </Project>
