@@ -9,6 +9,7 @@ using MyLab.Search.Indexer.Infrastructure.OpenSearch.Serialization;
 using OpenSearch.Client;
 using OpenSearch.Net;
 using Xunit.Abstractions;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Infrastructure.OpenSearch.IntegrationTests;
 
@@ -32,6 +33,7 @@ static class TestTools
         options.Host = source.Host;
         options.BasicAuth = source.BasicAuth;
         options.IgnoreServerSslCertificate = source.IgnoreServerSslCertificate;
+        options.Debug = true;
     }
 
     public static ServiceProvider CreateRepositoryApp(ITestOutputHelper output)
@@ -41,7 +43,8 @@ static class TestTools
         services
             .AddLogging(logging => logging
                 .AddMyLabConsole()
-                .AddXUnit(output))
+                .AddXUnit(output)
+                .AddFilter(l => l >= LogLevel.Debug))
             .AddOpenSearch()
             .ConfigureOpenSearch(ConfigureLocalOpenSearch)
             .ConfigureOpenSearch(options => options.JsonSerializerOptions = IndexerJsonSerializerOptions.Options);

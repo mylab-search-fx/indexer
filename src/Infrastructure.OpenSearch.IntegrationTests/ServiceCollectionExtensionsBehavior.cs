@@ -6,6 +6,7 @@ using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Config;
 using OpenSearch.Client;
 using Xunit.Abstractions;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Infrastructure.OpenSearch.IntegrationTests;
 
@@ -21,7 +22,8 @@ public class ServiceCollectionExtensionsBehavior(ITestOutputHelper output)
         services
             .AddLogging(logging => logging
                 .AddMyLabConsole()
-                .AddXUnit(output))
+                .AddXUnit(output)
+                .AddFilter(l => l >= LogLevel.Debug))
             .AddOpenSearchInfrastructure()
             .ConfigureOpenSearchInfrastructure(
                 indexing =>

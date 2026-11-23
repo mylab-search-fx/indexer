@@ -29,11 +29,6 @@ class OpenSearchDestinationRepository
 
         if (indexResult.IsValid)
         {
-            _log?.Debug("Indexing request completed")
-                .AndFactIs("index", indexName)
-                .AndFactIs("debug", indexResult.ApiCall.DebugInformation)
-                .Write();
-
             _log?.Action("Data has been indexed")
                 .AndFactIs("index", indexName)
                 .AndFactIs("count", indexResult.Took)
@@ -43,7 +38,7 @@ class OpenSearchDestinationRepository
         {
             var logExpr = indexResult.OriginalException != null
                 ? _log?.Error(indexResult.OriginalException)
-                : _log?.Error("Indexing req uest error");
+                : _log?.Error("Indexing request error");
 
             logExpr?.AndFactIs("index", indexName)
                 .AndFactIs("server-error", indexResult.ServerError)
