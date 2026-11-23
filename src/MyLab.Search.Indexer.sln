@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.FileSystem.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.OpenSearch.IntegrationTests", "Infrastructure.OpenSearch.IntegrationTests\Infrastructure.OpenSearch.IntegrationTests.csproj", "{D9721FA9-3526-475A-8797-21E9DE440E62}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker.IntegrationTests", "Worker.IntegrationTests\Worker.IntegrationTests.csproj", "{B731EBD7-FCBE-4470-8C40-CD525222F2A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{D9721FA9-3526-475A-8797-21E9DE440E62}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9721FA9-3526-475A-8797-21E9DE440E62}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9721FA9-3526-475A-8797-21E9DE440E62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B731EBD7-FCBE-4470-8C40-CD525222F2A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B731EBD7-FCBE-4470-8C40-CD525222F2A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B731EBD7-FCBE-4470-8C40-CD525222F2A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B731EBD7-FCBE-4470-8C40-CD525222F2A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,6 +100,7 @@ Global
 		{10893C22-AEE4-4E85-9716-3FEF2BD67FCC} = {BD022CCB-723F-4DA4-B982-160DD277920C}
 		{9B306A6C-3733-48F1-BE85-877A16AB951F} = {BD022CCB-723F-4DA4-B982-160DD277920C}
 		{D9721FA9-3526-475A-8797-21E9DE440E62} = {BD022CCB-723F-4DA4-B982-160DD277920C}
+		{B731EBD7-FCBE-4470-8C40-CD525222F2A5} = {BD022CCB-723F-4DA4-B982-160DD277920C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8D8B5B12-8CB3-428C-98FE-D4EC8556EAC3}
