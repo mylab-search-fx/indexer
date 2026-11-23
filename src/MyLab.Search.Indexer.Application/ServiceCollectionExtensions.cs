@@ -1,10 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Indexing;
 using MyLab.Search.Indexer.Application.Options;
 
-namespace MyLab.Search.Indexer.Application;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
