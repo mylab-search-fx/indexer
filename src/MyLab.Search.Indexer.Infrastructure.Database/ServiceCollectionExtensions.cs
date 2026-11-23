@@ -11,14 +11,16 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDatabaseInfrastructure(this IServiceCollection srv, IConfiguration cfg)
+    extension(IServiceCollection srv)
     {
-        return srv
-            .AddSingleton<IIndexVersionController, DbIndexVersionController>()
-            .AddSingleton<ISeedStorage, DbSeedStorage>()
-            .AddSingleton<ISourceRepositoryFactory, DbSourceRepositoryFactory>()
-            .AddDbTools(new SingleDbProviderSource(new MariaDb10DataProvider()))
-            .ConfigureDbTools(cfg);
-        
+        public IServiceCollection AddDatabaseInfrastructure()
+            => srv
+                .AddSingleton<IIndexVersionController, DbIndexVersionController>()
+                .AddSingleton<ISeedStorage, DbSeedStorage>()
+                .AddSingleton<ISourceRepositoryFactory, DbSourceRepositoryFactory>()
+                .AddDbTools(new SingleDbProviderSource(new MariaDb10DataProvider()));
+
+        public IServiceCollection ConfigureDatabaseInfrastructure(IConfiguration cfg)
+            => srv.ConfigureDbTools(cfg);
     }
 }

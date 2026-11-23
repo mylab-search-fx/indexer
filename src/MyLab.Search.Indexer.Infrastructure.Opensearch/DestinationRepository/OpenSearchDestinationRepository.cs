@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using MyLab.Log;
 using MyLab.Log.Dsl;
 using MyLab.Search.Indexer.Application.Abstraction;
 using MyLab.Search.Indexer.Application.Data;
@@ -36,14 +37,10 @@ class OpenSearchDestinationRepository
         }
         else
         {
-            var logExpr = indexResult.OriginalException != null
-                ? _log?.Error(indexResult.OriginalException)
-                : _log?.Error("Indexing request error");
-
-            logExpr?.AndFactIs("index", indexName)
+            throw new InvalidOperationException("Indexing request error")
+                .AndFactIs("exception", indexResult.OriginalException)
                 .AndFactIs("server-error", indexResult.ServerError)
-                .AndFactIs("debug", indexResult.DebugInformation)
-                .Write();
+                .AndFactIs("debug", indexResult.DebugInformation);
         }
     }
 }

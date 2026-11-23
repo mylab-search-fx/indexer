@@ -14,9 +14,13 @@ public static class ServiceCollectionExtensions
     {
         public IServiceCollection AddOpenSearchInfrastructure()
         {
-            return srv
-                .AddSingleton<IDestinationRepositoryFactory, OpenSearchDestinationRepositoryFactory>()
+            srv.AddSingleton<IDestinationRepositoryFactory, OpenSearchDestinationRepositoryFactory>()
                 .AddOpenSearch();
+
+            srv.AddHealthChecks()
+                .AddOpenSearch();
+
+            return srv;
         }
     
         public IServiceCollection ConfigureOpenSearchInfrastructure(IConfiguration cfg)

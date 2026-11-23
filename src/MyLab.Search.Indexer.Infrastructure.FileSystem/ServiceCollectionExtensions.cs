@@ -4,15 +4,16 @@ using MyLab.Search.Indexer.Application.Options;
 using MyLab.Search.Indexer.Infrastructure.FileSystem;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.Extensions.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection;
+
+public static class ServiceCollectionExtensions
 {
-    public static class ServiceCollectionExtensions
+    extension(IServiceCollection srv)
     {
-        public static IServiceCollection AddFileSystemInfrastructure(this IServiceCollection srv, IConfiguration cfg)
-        {
-            return srv
-                .AddSingleton<IIndexDescProvider, LocalFileIndexDescProvider>()
-                .Configure<WorkerFileSystemOptions>(cfg.GetSection(WorkerOptions.SectionName));
-        }
+        public IServiceCollection AddFileSystemInfrastructure()
+            => srv.AddSingleton<IIndexDescProvider, LocalFileIndexDescProvider>();
+
+        public IServiceCollection ConfigureFileSystemInfrastructure(IConfiguration cfg)
+            => srv.Configure<WorkerFileSystemOptions>(cfg.GetSection(WorkerOptions.SectionName));
     }
 }
