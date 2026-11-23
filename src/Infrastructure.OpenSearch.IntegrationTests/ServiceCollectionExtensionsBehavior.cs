@@ -60,7 +60,6 @@ public class ServiceCollectionExtensionsBehavior(ITestOutputHelper output)
 
         // Assert
         Assert.Equal(item.Id.Value, stored.Id);
-        Assert.Equal(item.Seed, stored.Seed);
         Assert.Equal(item.Fields["title"].Value, stored.Title);
         Assert.Equal(item.Fields["active"].Value, stored.Active);
         Assert.Equal(item.Fields["amount"].Value, stored.Amount);

@@ -14,11 +14,13 @@ class SourceDataItemJsonConverter : JsonConverter<SourceDataItem>
 
     public override void Write(Utf8JsonWriter writer, SourceDataItem value, JsonSerializerOptions options)
     {
+        writer.WriteStartObject();
         WriteField(writer, "id", value.Id);
         foreach (var field in value.Fields)
         {
             WriteField(writer, field.Key, field.Value);
         }
+        writer.WriteEndObject();
     }
 
     void WriteField(Utf8JsonWriter writer, string name, SourceDataValue value)

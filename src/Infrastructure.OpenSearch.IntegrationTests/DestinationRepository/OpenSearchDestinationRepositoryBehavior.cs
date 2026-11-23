@@ -15,7 +15,8 @@ public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
         var app = TestTools.CreateRepositoryApp(output);
         await using var provider = app;
         var client = provider.GetRequiredService<IOpenSearchClient>();
-        var logger = provider.GetRequiredService<ILoggerFactory>().CreateLogger<OpenSearchDestinationRepository>();
+        var logger = provider.GetRequiredService<ILoggerFactory>()
+            .CreateLogger<OpenSearchDestinationRepository>();
         var indexName = "repo" + Guid.NewGuid().ToString("N");
         var repository = new OpenSearchDestinationRepository(indexName, client, logger);
         var page = TestTools.CreatePage("doc-1");
@@ -31,7 +32,6 @@ public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
 
             // Assert
             Assert.Equal(item.Id.Value, stored.Id);
-            Assert.Equal(item.Seed, stored.Seed);
             Assert.Equal(item.Fields["title"].Value, stored.Title);
             Assert.Equal(item.Fields["active"].Value, stored.Active);
             Assert.Equal(item.Fields["amount"].Value, stored.Amount);

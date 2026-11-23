@@ -121,10 +121,8 @@ public class SourceDataItemJsonConverterBehavior
     {
         var stream = new MemoryStream();
         using var writer = new Utf8JsonWriter(stream);
-        writer.WriteStartObject();
         var converter = new SourceDataItemJsonConverter();
         converter.Write(writer, item, new JsonSerializerOptions());
-        writer.WriteEndObject();
         writer.Flush();
         var json = Encoding.UTF8.GetString(stream.ToArray());
         return json;

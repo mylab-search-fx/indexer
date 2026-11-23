@@ -103,22 +103,19 @@ static class TestTools
     {
         using var document = JsonDocument.Parse(sourceJson);
         var source = document.RootElement;
-        var fields = source.GetProperty("Fields");
-        var note = fields.GetProperty("note").GetProperty("Value");
+        var note = source.GetProperty("note");
 
         return new StoredDocument(
-            source.GetProperty("Id").GetProperty("Value").GetString(),
-            source.GetProperty("Seed").GetInt64(),
-            fields.GetProperty("title").GetProperty("Value").GetString(),
-            fields.GetProperty("active").GetProperty("Value").GetBoolean(),
-            fields.GetProperty("amount").GetProperty("Value").GetDouble(),
-            fields.GetProperty("updated_at").GetProperty("Value").GetString(),
+            source.GetProperty("id").GetString(),
+            source.GetProperty("title").GetString(),
+            source.GetProperty("active").GetBoolean(),
+            source.GetProperty("amount").GetDouble(),
+            source.GetProperty("updated_at").GetString(),
             note.ValueKind == JsonValueKind.Null ? null : note.GetString());
     }
 
     public sealed record StoredDocument(
         string? Id,
-        long Seed,
         string? Title,
         bool Active,
         double Amount,
