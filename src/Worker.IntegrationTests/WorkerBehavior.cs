@@ -1,23 +1,21 @@
-﻿using LinqToDB;
-using MyLab.Db;
-using MyLab.DbTest;
+﻿using Infrastructure.Database.IntegrationTests;
 using Xunit.Abstractions;
 
 namespace Worker.IntegrationTests;
 
-public class WorkerBehavior: IClassFixture<RemoteDbFixture>, IAsyncLifetime
+public class WorkerBehavior: 
+    IClassFixture<IndexerDbFixture>,
+    IClassFixture<LocalServerDbFixture>,
+    IAsyncLifetime
 {
-    IDbManager db;
-
-    public WorkerBehavior(RemoteDbFixture fxt, ITestOutputHelper output)
+    
+    public WorkerBehavior(IndexerDbFixture indexerFxt, LocalServerDbFixture serverFxt, ITestOutputHelper output)
     {
-        fxt.Output = output;
-        db = fxt.Manager;
     }
 
     public Task InitializeAsync()
     {
-        
+        return Task.CompletedTask;
     }
 
     public Task DisposeAsync()

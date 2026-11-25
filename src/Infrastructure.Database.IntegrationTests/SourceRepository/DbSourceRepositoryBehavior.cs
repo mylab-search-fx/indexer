@@ -77,10 +77,10 @@ public partial class DbSourceRepositoryBehavior
         );
     }
 
-    async Task ShouldProvideDataWithIntSeed(long seed, IEnumerable<TestItem> expectedFoundEnum, bool expectedFull)
+    async Task ShouldProvideDataWithIntSeed(long seed, IEnumerable<TestDbItem> expectedFoundEnum, bool expectedFull)
     {
         // Arrange
-        var repository = new DbSourceRepository(IntSeedIndex, _srcDb);
+        var repository = new DbSourceRepository(DbTestTools.CreateIntSeedIndex(PageSize), _srcDb);
 
         var expectedFound = expectedFoundEnum.ToArray();
         var maxSeed = expectedFound.Select(itm => itm.Id).Max();
@@ -104,10 +104,10 @@ public partial class DbSourceRepositoryBehavior
         });
     }
 
-    async Task ShouldProvideDataWithDateTimeSeed(long seed, IEnumerable<TestItem> expectedFoundEnum, bool expectedFull)
+    async Task ShouldProvideDataWithDateTimeSeed(long seed, IEnumerable<TestDbItem> expectedFoundEnum, bool expectedFull)
     {
         // Arrange
-        var repository = new DbSourceRepository(DtSeedIndex, _srcDb);
+        var repository = new DbSourceRepository(DbTestTools.CreateDtSeedIndex(PageSize), _srcDb);
 
         var expectedFound = expectedFoundEnum.ToArray();
         var maxSeed = expectedFound

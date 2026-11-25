@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Infrastructure.Database.IntegrationTests\Infrastructure.Database.IntegrationTests.csproj" />
     <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.Database\MyLab.Search.Indexer.Infrastructure.Database.csproj" />
   </ItemGroup>
 

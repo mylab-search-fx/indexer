@@ -6,7 +6,7 @@ namespace Infrastructure.Database.IntegrationTests;
 public class LocalServerDbFixture : RemoteDbFixture
 {
     public LocalServerDbFixture()
-        : base(new MariaDb10DataProvider(), TestTools.CreateCs())
+        : base(new MariaDb10DataProvider(), DbTestTools.CreateCs())
     {
     }
 }

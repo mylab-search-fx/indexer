@@ -10,7 +10,7 @@ namespace Infrastructure.Database.IntegrationTests;
 public class IndexerDbFixture : RemoteDbFixture
 {
     public IndexerDbFixture() 
-        : base(new MariaDb10DataProvider(), TestTools.CreateCs("indexer"))
+        : base(new MariaDb10DataProvider(), DbTestTools.CreateCs("indexer"))
     {
     }
 
