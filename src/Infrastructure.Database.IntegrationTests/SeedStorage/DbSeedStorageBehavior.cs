@@ -1,9 +1,9 @@
+using LinqToDB;
 using MyLab.Search.Indexer.Infrastructure.Database.SeedStorage;
 
 namespace Infrastructure.Database.IntegrationTests.SeedStorage;
 
-[Collection(DatabaseCollection.Name)]
-public partial class DbSeedStorageBehavior : IAsyncLifetime
+public partial class DbSeedStorageBehavior
 {
     [Fact(Timeout = 10000)]
     public async Task ShouldReturnZeroWhenIndexHasNoSeed()
@@ -22,8 +22,18 @@ public partial class DbSeedStorageBehavior : IAsyncLifetime
     public async Task ShouldReturnSeedStoredForRequestedIndex()
     {
         // Arrange
-        await StoreSeedAsync(_db, "orders", 15);
-        await StoreSeedAsync(_db, "customers", 40);
+        await _db.DoOnce().InsertAsync(new IndexSeed
+        {
+            IndexId = "orders",
+            Value = 15
+        });
+
+        await _db.DoOnce().InsertAsync(new IndexSeed
+        {
+            IndexId = "customers",
+            Value = 40
+        });
+
         var storage = new DbSeedStorage(_db);
 
         // Act
@@ -37,7 +47,12 @@ public partial class DbSeedStorageBehavior : IAsyncLifetime
     public async Task ShouldStoreSeedWhenIndexHasNone()
     {
         // Arrange
-        await StoreSeedAsync(_db, "customers", 40);
+        await _db.DoOnce().InsertAsync(new IndexSeed
+        {
+            IndexId = "customers",
+            Value = 40
+        });
+
         var storage = new DbSeedStorage(_db);
 
         // Act
@@ -57,8 +72,18 @@ public partial class DbSeedStorageBehavior : IAsyncLifetime
     public async Task ShouldReplaceSeedWhenIndexAlreadyHasOne()
     {
         // Arrange
-        await StoreSeedAsync(_db, "customers", 40);
-        await StoreSeedAsync(_db, "orders", 15);
+        await _db.DoOnce().InsertAsync(new IndexSeed
+        {
+            IndexId = "orders",
+            Value = 15
+        });
+
+        await _db.DoOnce().InsertAsync(new IndexSeed
+        {
+            IndexId = "customers",
+            Value = 40
+        });
+
         var storage = new DbSeedStorage(_db);
 
         // Act

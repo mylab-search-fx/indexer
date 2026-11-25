@@ -1,49 +1,34 @@
-using LinqToDB;
 using LinqToDB.Async;
-using Microsoft.Extensions.DependencyInjection;
 using MyLab.Db;
 using MyLab.Search.Indexer.Infrastructure.Database.IndexVersionControl;
 using Xunit.Abstractions;
 
 namespace Infrastructure.Database.IntegrationTests.IndexVersionControl;
 
-public partial class DbIndexVersionControllerBehavior
+public partial class DbIndexVersionControllerBehavior : IClassFixture<IndexerDbFixture>, IAsyncLifetime
 {
-    readonly ServiceProvider _app;
     readonly IDbManager _db;
+    readonly IndexerDbFixture _fxt;
 
-    public DbIndexVersionControllerBehavior(ITestOutputHelper output)
+    public DbIndexVersionControllerBehavior(IndexerDbFixture fxt, ITestOutputHelper output)
     {
-        _app = TestTools.CreateApp(output).BuildServiceProvider();
-        _db = _app.GetRequiredService<IDbManager>();
+        fxt.Output = output;
+        _db = fxt.Manager;
+        _fxt = fxt;
     }
 
-    public async Task InitializeAsync()
+    Task<IndexVersion[]> ReadVersionsAsync()
     {
-        await TestTools.ClearTestTablesAsync(_db);
-    }
-
-    public async Task DisposeAsync()
-    {
-        await _app.DisposeAsync();
-    }
-
-    static async Task StoreVersionAsync(IDbManager db, string value, DateTime registered)
-    {
-        await using var connection = db.Use();
-        var row = new IndexVersion
-        {
-            Value = value,
-            Registered = registered
-        };
-        await connection.InsertAsync(row);
-    }
-
-    static Task<IndexVersion[]> ReadVersionsAsync(IDbManager db)
-    {
-        return db.DoOnce()
+        return _db.DoOnce()
             .Tab<IndexVersion>()
             .OrderBy(row => row.Registered)
             .ToArrayAsync();
+    }
+
+    public Task InitializeAsync() => Task.CompletedTask;
+
+    public Task DisposeAsync()
+    {
+        return _fxt.CleanupAsync();
     }
 }

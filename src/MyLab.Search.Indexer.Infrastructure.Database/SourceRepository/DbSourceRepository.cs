@@ -18,7 +18,7 @@ class DbSourceRepository(IndexDescription idxDesc, IDbManager db) : ISourceRepos
             new DataParameter
             (
                 "seed",
-                seed,
+                seed == 0 ? -1 : seed,
                 DataType.Long
             ),
             new DataParameter
@@ -44,8 +44,7 @@ class DbSourceRepository(IndexDescription idxDesc, IDbManager db) : ISourceRepos
         {
             newSeed = items
                 .Select(itm => itm.Seed)
-                .OrderByDescending(s => s)
-                .First();
+                .Max(s => s);
         }
 
         return new SourceData
