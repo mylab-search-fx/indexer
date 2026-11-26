@@ -11,7 +11,7 @@ public static class ServiceCollectionExtensions
     extension(IServiceCollection srv)
     {
         public IServiceCollection AddIndexerAppLogic()
-            => srv.AddSingleton<IIndexWorkerOrchestrator, IIndexWorkerOrchestrator>()
+            => srv.AddSingleton<IIndexWorkerOrchestrator, IndexWorkerOrchestrator>()
                 .AddSingleton<IndexWorkerFactory>();
 
         public IServiceCollection ConfigureIndexerAppLogic(IConfiguration cfg)

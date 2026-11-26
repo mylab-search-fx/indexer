@@ -122,7 +122,7 @@ public static class RedisTestTools
     }
 }
 
-sealed class RedisSession(
+public sealed class RedisSession(
     ServiceProvider provider,
     IRedisService service,
     ILogger<RedisIndexLocker> logger) : IAsyncDisposable

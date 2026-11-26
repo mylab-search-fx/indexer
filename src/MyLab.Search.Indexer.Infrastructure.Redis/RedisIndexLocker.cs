@@ -5,7 +5,7 @@ using MyLab.Redis.Abstractions;
 
 namespace MyLab.Search.Indexer.Infrastructure.Redis;
 
-class RedisIndexLocker(IRedisService redis, ILogger<RedisIndexLocker>? logger = null) : IIndexLocker
+public class RedisIndexLocker(IRedisService redis, ILogger<RedisIndexLocker>? logger = null) : IIndexLocker
 {
     private readonly IDslLogger? _log = logger?.Dsl();
     

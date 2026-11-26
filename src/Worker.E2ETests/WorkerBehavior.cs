@@ -6,13 +6,15 @@ public partial class WorkerBehavior
     public async Task ShouldIndexInitialData()
     {
         //Arrange
-        await WriteItemsAsync(0, 100);
+        var items = await WriteItemsAsync(0, 100);
 
         //Act
         await using var disp = await StartAppAsync();
 
-        //Assert
+        bool allItemsIndexed = await CheckIndexedItemsAsync(items);
 
+        //Assert
+        Assert.True(allItemsIndexed);
     }
 
     [Fact]
@@ -23,10 +25,12 @@ public partial class WorkerBehavior
         await using var disp = await StartAppAsync();
 
         //Act
-        await WriteItemsAsync(100, 100);
+        var items = await WriteItemsAsync(100, 100);
+
+        bool allItemsIndexed = await CheckIndexedItemsAsync(items);
 
         //Assert
-
+        Assert.True(allItemsIndexed);
     }
 
     [Fact]
@@ -36,9 +40,11 @@ public partial class WorkerBehavior
         await using var disp = await StartAppAsync();
 
         //Act
-        await WriteItemsAsync(0, 100);
+        var items = await WriteItemsAsync(0, 100);
+
+        bool allItemsIndexed = await CheckIndexedItemsAsync(items);
 
         //Assert
-
+        Assert.True(allItemsIndexed);
     }
 }

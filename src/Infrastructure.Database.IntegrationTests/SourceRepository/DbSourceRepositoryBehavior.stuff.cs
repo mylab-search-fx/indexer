@@ -28,7 +28,7 @@ public partial class DbSourceRepositoryBehavior :
 
     public async Task InitializeAsync()
     {
-        await DbTestTools.CreateTestTableAsync(_srcDb);
+        await DbTestTools.CreateOrResetTestTableAsync(_srcDb);
 
         await FillDbAsync();
     }

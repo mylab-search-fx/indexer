@@ -53,8 +53,8 @@ public partial class WorkerBehavior :
     {
         await WriteConfigsAsync();
 
-        await DbTestTools.CreateTestTableAsync(_source1Db);
-        await DbTestTools.CreateTestTableAsync(_source2Db);
+        await DbTestTools.CreateOrResetTestTableAsync(_source1Db);
+        await DbTestTools.CreateOrResetTestTableAsync(_source2Db);
 
         CreateApp();
     }
@@ -147,12 +147,13 @@ public partial class WorkerBehavior :
         return items;
     }
 
-    Task<bool> CheckIndexedItems(string index, IEnumerable<TestDbItem> items)
+    async Task<bool> CheckIndexedItemsAsync(IEnumerable<TestDbItem> items)
     {
         if (_app == null) throw new InvalidOperationException("App was not created");
 
         var opensearch = _app.GetRequiredService<IOpenSearchClient>();
-        
+
+        return false;
     }
 
     class AppStopper : IAsyncDisposable

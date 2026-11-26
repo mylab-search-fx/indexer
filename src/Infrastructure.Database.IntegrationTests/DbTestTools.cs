@@ -1,4 +1,5 @@
 using LinqToDB;
+using LinqToDB.SchemaProvider;
 using MyLab.Db;
 using MyLab.Search.Indexer.Application.Config;
 
@@ -40,8 +41,24 @@ public static class DbTestTools
             : cs;
     }
 
-    public static Task CreateTestTableAsync(IDbManager db)
-        => db.DoOnce().CreateTableAsync<TestDbItem>();
+    public static async Task CreateOrResetTestTableAsync(IDbManager db)
+    {
+        await using var c = db.Use();
+
+        var schema = c.DataProvider.GetSchemaProvider().GetSchema(c, new GetSchemaOptions
+        {
+            GetProcedures = false,
+            GetTables = true
+        });
+
+        bool tableExists = schema.Tables.Any(t =>
+            t.TableName?.Equals("item", StringComparison.OrdinalIgnoreCase) ?? false);
+
+        if(tableExists)
+            await c.DropTableAsync<TestDbItem>();
+        
+        await c.CreateTableAsync<TestDbItem>();
+    }
 
     public static Task DropTestTableAsync(IDbManager db)
         => db.DoOnce().DropTableAsync<TestDbItem>();
