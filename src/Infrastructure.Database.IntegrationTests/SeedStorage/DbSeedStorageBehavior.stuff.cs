@@ -1,12 +1,11 @@
-using LinqToDB;
 using LinqToDB.Async;
-using Microsoft.Extensions.DependencyInjection;
 using MyLab.Db;
 using MyLab.Search.Indexer.Infrastructure.Database.SeedStorage;
 using Xunit.Abstractions;
 
 namespace Infrastructure.Database.IntegrationTests.SeedStorage;
 
+[Collection("indexer-db")]
 public partial class DbSeedStorageBehavior : IClassFixture<IndexerDbFixture>, IAsyncLifetime
 {
     readonly IDbManager _db;

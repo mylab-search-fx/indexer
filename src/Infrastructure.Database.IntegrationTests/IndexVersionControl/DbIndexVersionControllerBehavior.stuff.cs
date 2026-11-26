@@ -5,6 +5,7 @@ using Xunit.Abstractions;
 
 namespace Infrastructure.Database.IntegrationTests.IndexVersionControl;
 
+[Collection("indexer-db")]
 public partial class DbIndexVersionControllerBehavior : IClassFixture<IndexerDbFixture>, IAsyncLifetime
 {
     readonly IDbManager _db;

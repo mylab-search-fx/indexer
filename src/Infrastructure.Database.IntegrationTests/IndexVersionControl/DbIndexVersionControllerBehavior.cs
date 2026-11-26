@@ -28,30 +28,30 @@ public partial class DbIndexVersionControllerBehavior
     public async Task ShouldAcceptAndStoreVersionWhenOtherVersionsExist()
     {
         // Arrange
-        const string version = "script-beta";
-        var earlier = new DateTime(2020, 1, 1);
+        const string earlierVersion = "script-beta";
+        var earlierRegistered = new DateTime(2020, 1, 1);
 
         await _db.DoOnce().InsertAsync(new IndexVersion
         {
-            Value = version,
-            Registered = earlier
+            Value = earlierVersion,
+            Registered = earlierRegistered
         });
         
         var controller = new DbIndexVersionController(_db);
         
 
         // Act
-        var accepted = await controller.CheckoutVersionAsync(version, CancellationToken.None);
+        var accepted = await controller.CheckoutVersionAsync("script-alpha", CancellationToken.None);
 
         var stored = await ReadVersionsAsync();
 
         // Assert
         Assert.True(accepted);
         Assert.Equal(2, stored.Length);
-        Assert.Equal("script-alpha", stored[0].Value);
-        Assert.Equal(earlier, stored[0].Registered);
-        Assert.Equal(version, stored[1].Value);
-        Assert.True(stored[1].Registered > earlier);
+        Assert.Equal(earlierVersion, stored[0].Value);
+        Assert.Equal(earlierRegistered, stored[0].Registered);
+        Assert.Equal("script-alpha", stored[1].Value);
+        Assert.True(stored[1].Registered > earlierRegistered);
     }
 
     [Fact(Timeout = 10000)]
