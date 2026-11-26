@@ -11,17 +11,17 @@ using Xunit.Abstractions;
 
 namespace Infrastructure.Redis.IntegrationTests;
 
-static class TestTools
+public static class RedisTestTools
 {
     // Redis from test/docker-compose.yml: published port 16379, ACL user test.
-    public static RedisOptions RedisOptions => new()
+    static RedisOptions RedisOptions => new()
     {
         ConnectionString = "localhost:16379",
         User = "test",
         Password = "test"
     };
 
-    public static Action<RedisOptions> ConfigureRedis => opt =>
+    public static Action<RedisOptions> ConfigureLocalRedis => opt =>
     {
         opt.ConnectionString = RedisOptions.ConnectionString;
         opt.User = RedisOptions.User;
@@ -73,7 +73,7 @@ static class TestTools
     }
 
     public static Task<RedisSession> OpenRedisAsync(ITestOutputHelper output)
-        => OpenRedisAsync(output, ConfigureRedis);
+        => OpenRedisAsync(output, ConfigureLocalRedis);
 
     public static async Task<RedisSession> OpenRedisAsync(ITestOutputHelper output, Action<RedisOptions> configureOptions)
     {
@@ -135,7 +135,7 @@ sealed class RedisSession(
 
     public async ValueTask DisposeAsync()
     {
-        await TestTools.StopHostedAsync(provider);
+        await RedisTestTools.StopHostedAsync(provider);
         await provider.DisposeAsync();
     }
 }

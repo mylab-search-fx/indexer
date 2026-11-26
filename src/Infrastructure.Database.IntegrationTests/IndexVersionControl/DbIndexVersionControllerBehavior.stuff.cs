@@ -6,12 +6,12 @@ using Xunit.Abstractions;
 namespace Infrastructure.Database.IntegrationTests.IndexVersionControl;
 
 [Collection("indexer-db")]
-public partial class DbIndexVersionControllerBehavior : IClassFixture<IndexerDbFixture>, IAsyncLifetime
+public partial class DbIndexVersionControllerBehavior : IClassFixture<IndexerDbCleanerFixture>, IAsyncLifetime
 {
     readonly IDbManager _db;
-    readonly IndexerDbFixture _fxt;
+    readonly IndexerDbCleanerFixture _fxt;
 
-    public DbIndexVersionControllerBehavior(IndexerDbFixture fxt, ITestOutputHelper output)
+    public DbIndexVersionControllerBehavior(IndexerDbCleanerFixture fxt, ITestOutputHelper output)
     {
         fxt.Output = output;
         _db = fxt.Manager;

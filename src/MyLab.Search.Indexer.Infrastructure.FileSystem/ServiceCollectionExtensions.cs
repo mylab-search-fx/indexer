@@ -15,5 +15,8 @@ public static class ServiceCollectionExtensions
 
         public IServiceCollection ConfigureFileSystemInfrastructure(IConfiguration cfg)
             => srv.Configure<WorkerFileSystemOptions>(cfg.GetSection(WorkerOptions.SectionName));
+
+        public IServiceCollection ConfigureFileSystemInfrastructure(Action<WorkerFileSystemOptions> configure)
+            => srv.Configure(configure);
     }
 }

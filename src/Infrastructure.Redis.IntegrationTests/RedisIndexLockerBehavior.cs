@@ -10,7 +10,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
     public async Task ShouldLockIndexWhenItIsFree()
     {
         // Arrange
-        var opened = await TestTools.OpenRedisAsync(output);
+        var opened = await RedisTestTools.OpenRedisAsync(output);
         await using var redis = opened;
         var indexId = redis.NewIndexId();
         var locker = new RedisIndexLocker(redis.Service, redis.Logger);
@@ -18,7 +18,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
         // Act
         await using var indexLock = await locker.TryLockAsync(indexId, CancellationToken.None);
 
-        var keyExists = await TestTools.LockExistsAsync(redis.Service, indexId);
+        var keyExists = await RedisTestTools.LockExistsAsync(redis.Service, indexId);
 
         // Assert
         Assert.True(indexLock.Locked);
@@ -30,7 +30,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
     public async Task ShouldReturnUnlockedLockWhenIndexIsAlreadyHeld()
     {
         // Arrange
-        var opened = await TestTools.OpenRedisAsync(output);
+        var opened = await RedisTestTools.OpenRedisAsync(output);
         await using var redis = opened;
         var indexId = redis.NewIndexId();
         var locker = new RedisIndexLocker(redis.Service, redis.Logger);
@@ -41,7 +41,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
         // Act
         await using var second = await locker.TryLockAsync(indexId, CancellationToken.None);
 
-        var keyExists = await TestTools.LockExistsAsync(redis.Service, indexId);
+        var keyExists = await RedisTestTools.LockExistsAsync(redis.Service, indexId);
 
         // Assert
         Assert.False(second.Locked);
@@ -53,7 +53,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
     public async Task ShouldReleaseIndexWhenLockIsDisposed()
     {
         // Arrange
-        var opened = await TestTools.OpenRedisAsync(output);
+        var opened = await RedisTestTools.OpenRedisAsync(output);
         await using var redis = opened;
         var indexId = redis.NewIndexId();
         var locker = new RedisIndexLocker(redis.Service, redis.Logger);
@@ -64,7 +64,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
         // Act
         await held.DisposeAsync();
 
-        var keyExists = await TestTools.LockExistsAsync(redis.Service, indexId);
+        var keyExists = await RedisTestTools.LockExistsAsync(redis.Service, indexId);
         await using var again = await locker.TryLockAsync(indexId, CancellationToken.None);
 
         // Assert
@@ -77,7 +77,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
     public async Task ShouldLockAnotherIndexWhileOneIsHeld()
     {
         // Arrange
-        var opened = await TestTools.OpenRedisAsync(output);
+        var opened = await RedisTestTools.OpenRedisAsync(output);
         await using var redis = opened;
         var firstId = redis.NewIndexId();
         var secondId = redis.NewIndexId();
@@ -89,7 +89,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
         // Act
         await using var second = await locker.TryLockAsync(secondId, CancellationToken.None);
 
-        var secondKeyExists = await TestTools.LockExistsAsync(redis.Service, secondId);
+        var secondKeyExists = await RedisTestTools.LockExistsAsync(redis.Service, secondId);
         await using var firstAgain = await locker.TryLockAsync(firstId, CancellationToken.None);
 
         // Assert
@@ -104,9 +104,9 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
     public async Task ShouldExtendLockWhenHeartbeatSucceeds()
     {
         // Arrange
-        var opened = await TestTools.OpenRedisAsync(output, opt =>
+        var opened = await RedisTestTools.OpenRedisAsync(output, opt =>
         {
-            TestTools.ConfigureRedis(opt);
+            RedisTestTools.ConfigureLocalRedis(opt);
             opt.Redlock = new RedlockOptions { ExpirySec = 5 };
         });
         await using var redis = opened;
@@ -116,7 +116,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
         if (!held.Locked)
             throw new InvalidOperationException("Index was not locked.");
         await Task.Delay(TimeSpan.FromSeconds(1));
-        var beforeTtl = await TestTools.LockTtlAsync(redis.Service, indexId);
+        var beforeTtl = await RedisTestTools.LockTtlAsync(redis.Service, indexId);
         if (beforeTtl == null)
             throw new InvalidOperationException("Lock key has no TTL.");
         var before = beforeTtl.Value;
@@ -124,7 +124,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
         // Act
         var prolonged = await held.HeartbeatAsync(CancellationToken.None);
 
-        var after = await TestTools.LockTtlAsync(redis.Service, indexId);
+        var after = await RedisTestTools.LockTtlAsync(redis.Service, indexId);
         await using var second = await locker.TryLockAsync(indexId, CancellationToken.None);
 
         // Assert
@@ -139,7 +139,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
     public async Task ShouldReturnStandInLockWhenRedisIsNotConnected()
     {
         // Arrange
-        var opened = await TestTools.OpenDisconnectedAsync(output);
+        var opened = await RedisTestTools.OpenDisconnectedAsync(output);
         await using var redis = opened;
         var locker = new RedisIndexLocker(redis.Service, redis.Logger);
 
@@ -158,7 +158,7 @@ public class RedisIndexLockerBehavior(ITestOutputHelper output)
     public async Task ShouldReturnAnotherStandInLockWhenRedisIsNotConnected()
     {
         // Arrange
-        var opened = await TestTools.OpenDisconnectedAsync(output);
+        var opened = await RedisTestTools.OpenDisconnectedAsync(output);
         await using var redis = opened;
         var locker = new RedisIndexLocker(redis.Service, redis.Logger);
         var first = await locker.TryLockAsync("orders", CancellationToken.None);

@@ -6,12 +6,12 @@ using Xunit.Abstractions;
 namespace Infrastructure.Database.IntegrationTests.SeedStorage;
 
 [Collection("indexer-db")]
-public partial class DbSeedStorageBehavior : IClassFixture<IndexerDbFixture>, IAsyncLifetime
+public partial class DbSeedStorageBehavior : IClassFixture<IndexerDbCleanerFixture>, IAsyncLifetime
 {
     readonly IDbManager _db;
-    readonly IndexerDbFixture _fxt;
+    readonly IndexerDbCleanerFixture _fxt;
 
-    public DbSeedStorageBehavior(IndexerDbFixture fxt, ITestOutputHelper output)
+    public DbSeedStorageBehavior(IndexerDbCleanerFixture fxt, ITestOutputHelper output)
     {
         fxt.Output = output;
         _db = fxt.Manager;

@@ -7,10 +7,10 @@ namespace Infrastructure.Database.IntegrationTests.SourceRepository;
 public partial class DbSourceRepositoryBehavior : 
     IClassFixture<LocalServerDbFixture>, 
     IClassFixture<SourceDbFixture>,
+    IClassFixture<SourceDbCreatorFixture>,
     IAsyncLifetime
 {
     const int PageSize = 2;
-    readonly IDbManager _srvDb;
     readonly IDbManager _srcDb;
     TestDbItem[] _items;
 
@@ -18,23 +18,16 @@ public partial class DbSourceRepositoryBehavior :
     public DbSourceRepositoryBehavior
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     (
-            LocalServerDbFixture srvFxt, 
             SourceDbFixture srcFxt, 
             ITestOutputHelper output
         )
     {
-        srvFxt.Output = output;
         srcFxt.Output = output;
-
-        _srvDb = srvFxt.Manager;
         _srcDb = srcFxt.Manager;
     }
 
     public async Task InitializeAsync()
     {
-        await using var c = _srvDb.Use();
-
-        await DbTestTools.CreateTestDbAsync(_srvDb);
         await DbTestTools.CreateTestTableAsync(_srcDb);
 
         await FillDbAsync();
@@ -54,7 +47,10 @@ public partial class DbSourceRepositoryBehavior :
         await _srcDb.DoOnce().BulkCopyAsync(_items);
     }
 
-    public Task DisposeAsync() => DbTestTools.DropTestDbAsync(_srvDb);
+    public Task DisposeAsync()
+    {
+        return DbTestTools.DropTestTableAsync(_srcDb);
+    }
 
     static long DtToLongAndRound(DateTime dateTime)
         => dateTime.Ticks / 10_000_000 * 10_000_000;

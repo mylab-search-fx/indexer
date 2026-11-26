@@ -1,3 +1,4 @@
+using LinqToDB.DataProvider;
 using MyLab.DbTest;
 using MyLab.Search.Indexer.Infrastructure.Database;
 
@@ -9,7 +10,7 @@ public class SourceDbFixture : RemoteDbFixture
         base
         (
             new MariaDb10DataProvider(),
-            DbTestTools.CreateCs(DbTestTools.SourceDbname)
+            DbTestTools.CreateCs(DbTestTools.SourceDbName)
         )
     {
 

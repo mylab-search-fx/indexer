@@ -20,5 +20,10 @@ public static class ServiceCollectionExtensions
             => srv
                 .ConfigureRedis(cfg.GetSection(RedisOptions.SectionName))
                 .ConfigureRedis(opt => opt.Optional = true);
+
+        public IServiceCollection ConfigureRedisInfrastructure(Action<RedisOptions> configure)
+            => srv
+                .ConfigureRedis(configure)
+                .ConfigureRedis(opt => opt.Optional = true);
     }
 }

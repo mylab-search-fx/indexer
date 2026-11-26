@@ -13,10 +13,10 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace Infrastructure.OpenSearch.IntegrationTests;
 
-static class TestTools
+public static class OpenSearchTestTools
 {
     // OpenSearch from test/docker-compose.yml, published port 19200.
-    public static OpenSearchOptions LocalOpenSearch => new()
+    static OpenSearchOptions LocalOpenSearch => new()
     {
         Host = "https://localhost:19200",
         BasicAuth = new OpenSearchBasicAuthentication

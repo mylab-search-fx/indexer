@@ -7,9 +7,9 @@ using MyLab.Search.Indexer.Infrastructure.Database.SeedStorage;
 
 namespace Infrastructure.Database.IntegrationTests;
 
-public class IndexerDbFixture : RemoteDbFixture
+public class IndexerDbCleanerFixture : RemoteDbFixture
 {
-    public IndexerDbFixture() 
+    public IndexerDbCleanerFixture() 
         : base(new MariaDb10DataProvider(), DbTestTools.CreateCs("indexer"))
     {
     }

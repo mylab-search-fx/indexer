@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.FileSystem.I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.OpenSearch.IntegrationTests", "Infrastructure.OpenSearch.IntegrationTests\Infrastructure.OpenSearch.IntegrationTests.csproj", "{D9721FA9-3526-475A-8797-21E9DE440E62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker.IntegrationTests", "Worker.IntegrationTests\Worker.IntegrationTests.csproj", "{B731EBD7-FCBE-4470-8C40-CD525222F2A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Worker.E2ETests", "Worker.E2ETests\Worker.E2ETests.csproj", "{B731EBD7-FCBE-4470-8C40-CD525222F2A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -12,14 +12,14 @@ public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
     public async Task ShouldStoreIndexedDocumentFields()
     {
         // Arrange
-        var app = TestTools.CreateRepositoryApp(output);
+        var app = OpenSearchTestTools.CreateRepositoryApp(output);
         await using var provider = app;
         var client = provider.GetRequiredService<IOpenSearchClient>();
         var logger = provider.GetRequiredService<ILoggerFactory>()
             .CreateLogger<OpenSearchDestinationRepository>();
         var indexName = "repo" + Guid.NewGuid().ToString("N");
         var repository = new OpenSearchDestinationRepository(indexName, client, logger);
-        var page = TestTools.CreatePage("doc-1");
+        var page = OpenSearchTestTools.CreatePage("doc-1");
         var item = page.Items[0];
 
         try
@@ -27,8 +27,8 @@ public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
             // Act
             await repository.WriteAsync(page);
 
-            var sourceJson = await TestTools.ReadSingleSourceJsonAsync(client, indexName);
-            var stored = TestTools.ReadStored(sourceJson);
+            var sourceJson = await OpenSearchTestTools.ReadSingleSourceJsonAsync(client, indexName);
+            var stored = OpenSearchTestTools.ReadStored(sourceJson);
 
             // Assert
             Assert.Equal(item.Id.Value, stored.Id);
@@ -40,7 +40,7 @@ public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
         }
         finally
         {
-            await TestTools.DeleteIndexAsync(client, indexName);
+            await OpenSearchTestTools.DeleteIndexAsync(client, indexName);
         }
     }
 }

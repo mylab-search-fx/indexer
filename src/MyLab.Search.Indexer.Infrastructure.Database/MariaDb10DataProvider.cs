@@ -3,7 +3,7 @@ using LinqToDB.DataProvider.MySql;
 
 namespace MyLab.Search.Indexer.Infrastructure.Database;
 
-class MariaDb10DataProvider : LinqToDB.Internal.DataProvider.MySql.MySqlDataProvider
+public class MariaDb10DataProvider : LinqToDB.Internal.DataProvider.MySql.MySqlDataProvider
 {
     public MariaDb10DataProvider() : base(
         ProviderName.MariaDB10MySqlConnector,

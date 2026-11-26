@@ -16,5 +16,8 @@ public static class ServiceCollectionExtensions
 
         public IServiceCollection ConfigureIndexerAppLogic(IConfiguration cfg)
             => srv.Configure<WorkerOptions>(cfg.GetSection(WorkerOptions.SectionName));
+
+        public IServiceCollection ConfigureIndexerAppLogic(Action<WorkerOptions> configure)
+            => srv.Configure<WorkerOptions>(configure);
     }
 }

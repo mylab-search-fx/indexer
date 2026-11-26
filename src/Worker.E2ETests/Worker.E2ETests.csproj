@@ -17,7 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Infrastructure.Database.IntegrationTests\Infrastructure.Database.IntegrationTests.csproj" />
+    <ProjectReference Include="..\Infrastructure.OpenSearch.IntegrationTests\Infrastructure.OpenSearch.IntegrationTests.csproj" />
+    <ProjectReference Include="..\Infrastructure.Redis.IntegrationTests\Infrastructure.Redis.IntegrationTests.csproj" />
     <ProjectReference Include="..\MyLab.Search.Indexer.Infrastructure.Database\MyLab.Search.Indexer.Infrastructure.Database.csproj" />
+    <ProjectReference Include="..\MyLab.Search.Indexer.Worker\MyLab.Search.Indexer.Worker.csproj" />
   </ItemGroup>
 
   <ItemGroup>

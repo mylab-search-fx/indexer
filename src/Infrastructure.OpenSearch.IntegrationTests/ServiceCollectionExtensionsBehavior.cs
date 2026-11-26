@@ -31,7 +31,7 @@ public class ServiceCollectionExtensionsBehavior(ITestOutputHelper output)
                     indexing.IndexPrefix = indexPrefix;
                     indexing.IndexSuffix = indexSuffix;
                 },
-                TestTools.ConfigureLocalOpenSearch);
+                OpenSearchTestTools.ConfigureLocalOpenSearch);
         var app = services.BuildServiceProvider();
         await using var provider = app;
         var client = provider.GetRequiredService<IOpenSearchClient>();
@@ -39,23 +39,23 @@ public class ServiceCollectionExtensionsBehavior(ITestOutputHelper output)
         var indexId = "orders" + Guid.NewGuid().ToString("N");
         var indexName = indexPrefix + "-" + indexId + indexSuffix;
         var repository = factory.Create(new IndexDescription(indexId, "select 1", new IndexConfig()));
-        var page = TestTools.CreatePage("doc-2");
+        var page = OpenSearchTestTools.CreatePage("doc-2");
         var item = page.Items[0];
-        TestTools.StoredDocument stored;
+        OpenSearchTestTools.StoredDocument stored;
 
         try
         {
             // Act
             await repository.WriteAsync(page);
 
-            var sourceJson = await TestTools.ReadSingleSourceJsonAsync(client, indexName);
-            stored = TestTools.ReadStored(sourceJson);
+            var sourceJson = await OpenSearchTestTools.ReadSingleSourceJsonAsync(client, indexName);
+            stored = OpenSearchTestTools.ReadStored(sourceJson);
 
             
         }
         finally
         {
-            await TestTools.DeleteIndexAsync(client, indexName);
+            await OpenSearchTestTools.DeleteIndexAsync(client, indexName);
         }
 
         // Assert

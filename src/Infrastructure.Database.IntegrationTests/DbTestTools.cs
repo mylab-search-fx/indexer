@@ -1,5 +1,4 @@
 using LinqToDB;
-using LinqToDB.Data;
 using MyLab.Db;
 using MyLab.Search.Indexer.Application.Config;
 
@@ -7,7 +6,7 @@ namespace Infrastructure.Database.IntegrationTests;
 
 public static class DbTestTools
 {
-    public const string SourceDbname = "test_src";
+    public const string SourceDbName = "test_src";
 
     public static IndexDescription CreateIntSeedIndex(int pageSize) => new
     (
@@ -41,22 +40,9 @@ public static class DbTestTools
             : cs;
     }
 
-    public static async Task CreateTestDbAsync(IDbManager srvDb)
-    {
-        await using var c = srvDb.Use();
-
-        await c.ExecuteAsync($"DROP DATABASE IF EXISTS `{DbTestTools.SourceDbname}`");
-        await c.ExecuteAsync($"CREATE DATABASE `{DbTestTools.SourceDbname}` CHARACTER SET utf8mb4");
-    }
-
-    public static Task DropTestDbAsync(IDbManager srvDb)
-    {
-        return srvDb.DoOnce().ExecuteAsync($"DROP DATABASE IF EXISTS `{DbTestTools.SourceDbname}`");
-    }
-
     public static Task CreateTestTableAsync(IDbManager db)
         => db.DoOnce().CreateTableAsync<TestDbItem>();
 
     public static Task DropTestTableAsync(IDbManager db)
-        => db.DoOnce().Tab<TestDbItem>().DeleteAsync();
+        => db.DoOnce().DropTableAsync<TestDbItem>();
 }
