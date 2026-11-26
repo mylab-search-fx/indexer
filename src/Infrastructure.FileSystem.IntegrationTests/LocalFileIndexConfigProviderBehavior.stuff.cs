@@ -26,10 +26,10 @@ public partial class LocalFileIndexConfigProviderBehavior
     static void WriteIndex(string root, string name, string sql, string? yaml = null)
     {
         var indexDir = Directory.CreateDirectory(Path.Combine(root, name)).FullName;
-        File.WriteAllText(Path.Combine(indexDir, "query.sql"), sql);
+        File.WriteAllText(Path.Combine(indexDir, Filenames.Query), sql);
 
         if (yaml != null)
-            File.WriteAllText(Path.Combine(indexDir, "params.yml"), yaml);
+            File.WriteAllText(Path.Combine(indexDir, Filenames.Config), yaml);
     }
 
     static LocalFileIndexDescProvider CreateProvider(string configPath) =>

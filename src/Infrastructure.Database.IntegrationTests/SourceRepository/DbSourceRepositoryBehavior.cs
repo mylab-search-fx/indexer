@@ -1,3 +1,4 @@
+using MyLab.Search.Indexer.Application.Config;
 using MyLab.Search.Indexer.Application.Data;
 using MyLab.Search.Indexer.Infrastructure.Database.SourceRepository;
 
@@ -80,7 +81,8 @@ public partial class DbSourceRepositoryBehavior
     async Task ShouldProvideDataWithIntSeed(long seed, IEnumerable<TestDbItem> expectedFoundEnum, bool expectedFull)
     {
         // Arrange
-        var repository = new DbSourceRepository(DbTestTools.CreateIntSeedIndex(PageSize), _srcDb);
+        var cfg = new IndexConfig(PageSize: PageSize);
+        var repository = new DbSourceRepository(DbTestTools.CreateIntSeedIndex(cfg), _srcDb);
 
         var expectedFound = expectedFoundEnum.ToArray();
         var maxSeed = expectedFound.Select(itm => itm.Id).Max();
@@ -107,7 +109,8 @@ public partial class DbSourceRepositoryBehavior
     async Task ShouldProvideDataWithDateTimeSeed(long seed, IEnumerable<TestDbItem> expectedFoundEnum, bool expectedFull)
     {
         // Arrange
-        var repository = new DbSourceRepository(DbTestTools.CreateDtSeedIndex(PageSize), _srcDb);
+        var cfg = new IndexConfig(PageSize: PageSize);
+        var repository = new DbSourceRepository(DbTestTools.CreateDtSeedIndex(cfg), _srcDb);
 
         var expectedFound = expectedFoundEnum.ToArray();
         var maxSeed = expectedFound

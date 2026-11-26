@@ -40,7 +40,7 @@ public class IndexWorker
             
             await PerformIterationAsync(srcRepo, destRepo, ct);
 
-            var idleTimeSpan = TimeSpan.FromSeconds(idxDesc.Config.Idle);
+            var idleTimeSpan = TimeSpan.FromSeconds(idxDesc.Config.IdleSec);
 
             _log?.Debug("Iteration idle... ")
                 .AndFactIs("time-span", idleTimeSpan)

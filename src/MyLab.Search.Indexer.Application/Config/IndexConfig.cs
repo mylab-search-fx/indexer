@@ -2,6 +2,6 @@
 
 public record IndexConfig(
         int PageSize = 500,
-        int Idle = 5 * 60, //sec
+        int IdleSec = 5 * 60,
         string SeedField = "Seed"
     );

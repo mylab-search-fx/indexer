@@ -17,7 +17,7 @@ public partial class IndexWorkerOrchestratorBehavior(ITestOutputHelper output)
         var workerCount = minWorkerThreads * 2;
         var gate = new OverlapGate(workerCount);
         var descriptions = Enumerable.Range(0, workerCount)
-            .Select(index => new IndexDescription($"worker-{index}", "select 1", new IndexConfig(Idle: 0)))
+            .Select(index => new IndexDescription($"worker-{index}", "select 1", new IndexConfig(IdleSec: 0)))
             .ToArray();
         var orchestrator = new IndexWorkerOrchestrator(
             new IndexWorkerFactory(new FixedIndexDescProvider(descriptions), new WorkerServices(gate)));

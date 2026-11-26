@@ -1,12 +1,16 @@
 ﻿using Infrastructure.Database.IntegrationTests;
 using Infrastructure.OpenSearch.IntegrationTests;
 using Infrastructure.Redis.IntegrationTests;
+using LinqToDB.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MyLab.Db;
 using MyLab.Log.XUnit;
+using MyLab.Search.Indexer.Application.Config;
+using MyLab.Search.Indexer.Infrastructure.FileSystem;
+using OpenSearch.Client;
 using Xunit.Abstractions;
 
 namespace Worker.E2ETests;
@@ -47,7 +51,7 @@ public partial class WorkerBehavior :
 
     public async Task InitializeAsync()
     {
-        _configDir = Directory.CreateTempSubdirectory("mylab-indexer-test");
+        await WriteConfigsAsync();
 
         await DbTestTools.CreateTestTableAsync(_source1Db);
         await DbTestTools.CreateTestTableAsync(_source2Db);
@@ -100,11 +104,69 @@ public partial class WorkerBehavior :
             .BuildServiceProvider();
     }
 
-    Task StartAppAsync(CancellationToken ct) => _app == null 
-            ? throw new InvalidOperationException("App was not created") 
-            : Task.WhenAll(_app.GetServices<IHostedService>().Select(h => h.StartAsync(ct)));
+    async Task WriteConfigsAsync()
+    {
+        _configDir = Directory.CreateTempSubdirectory("mylab-indexer-test");
 
-    Task StopAppAsync(CancellationToken ct) => _app == null
-            ? throw new InvalidOperationException("App was not created")
-            : Task.WhenAll(_app.GetServices<IHostedService>().Select(h => h.StopAsync(ct)));
+        var indexConfig = new IndexConfig(PageSize: 10, IdleSec: 1);
+
+        await IndexDescriptionFileTool.WriteAllIndexDescAsync
+        (
+            [
+                DbTestTools.CreateIntSeedIndex(indexConfig),
+                DbTestTools.CreateDtSeedIndex(indexConfig)
+            ],
+            _configDir.FullName
+        );
+    }
+
+    async Task<IAsyncDisposable> StartAppAsync()
+    {
+        if (_app == null) throw new InvalidOperationException("App was not created");
+        
+        await Task.WhenAll(_app.GetServices<IHostedService>().Select(h => h.StartAsync(CancellationToken.None)));
+
+        return new AppStopper(_app);
+    }
+
+    async Task<IReadOnlyList<TestDbItem>> WriteItemsAsync(int shift, int cound)
+    {
+        var items = Enumerable.Range(shift, cound)
+            .Select(i => new TestDbItem
+            {
+                Id = i,
+                Value = "value-" + i,
+                LastModified = DateTime.Now.AddSeconds(i)
+            })
+            .ToArray()
+            .AsReadOnly();
+
+        await _source1Db.DoOnce().BulkCopyAsync(items);
+        await _source2Db.DoOnce().BulkCopyAsync(items);
+
+        return items;
+    }
+
+    Task<bool> CheckIndexedItems(string index, IEnumerable<TestDbItem> items)
+    {
+        if (_app == null) throw new InvalidOperationException("App was not created");
+
+        var opensearch = _app.GetRequiredService<IOpenSearchClient>();
+        
+    }
+
+    class AppStopper : IAsyncDisposable
+    {
+        readonly IServiceProvider _serviceProvider;
+
+        public AppStopper(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await Task.WhenAll(_serviceProvider.GetServices<IHostedService>().Select(h => h.StopAsync(CancellationToken.None)));
+        }
+    }
 }

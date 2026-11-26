@@ -8,7 +8,7 @@ public static class DbTestTools
 {
     public const string SourceDbName = "test_src";
 
-    public static IndexDescription CreateIntSeedIndex(int pageSize) => new
+    public static IndexDescription CreateIntSeedIndex(IndexConfig cfg) => new
     (
         "items",
         """
@@ -17,10 +17,10 @@ public static class DbTestTools
         ORDER BY id
         LIMIT @limit
         """,
-        new IndexConfig(PageSize: pageSize)
+        cfg
     );
 
-    public static IndexDescription CreateDtSeedIndex(int pageSize) => new
+    public static IndexDescription CreateDtSeedIndex(IndexConfig cfg) => new
     (
         "items",
         """
@@ -29,7 +29,7 @@ public static class DbTestTools
         ORDER BY last_modified
         LIMIT @limit
         """,
-        new IndexConfig(PageSize: pageSize)
+        cfg
     );
 
     public static string CreateCs(string? database = null)

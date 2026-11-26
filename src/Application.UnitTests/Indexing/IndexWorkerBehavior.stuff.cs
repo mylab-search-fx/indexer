@@ -15,7 +15,7 @@ public partial class IndexWorkerBehavior
         readonly Queue<SourceData> _pages = new();
         Exception? _writeError;
 
-        public IndexDescription Index { get; } = new("orders", "select id", new IndexConfig(Idle: 0));
+        public IndexDescription Index { get; } = new("orders", "select id", new IndexConfig(IdleSec: 0));
 
         public string Version { get; set; } = "v1";
 
