@@ -36,15 +36,20 @@ public static class OpenSearchTestTools
         options.Debug = true;
     }
 
-    public static ServiceProvider CreateRepositoryApp(ITestOutputHelper output)
+    public static IServiceProvider CreateApp(ITestOutputHelper? output = null)
     {
         var services = new ServiceCollection();
 
         services
-            .AddLogging(logging => logging
-                .AddMyLabConsole()
-                .AddXUnit(output)
-                .AddFilter(l => l >= LogLevel.Debug))
+            .AddLogging(logging =>
+            {
+                logging
+                    .AddMyLabConsole()
+                    .AddFilter(l => l >= LogLevel.Debug);
+
+                if (output != null)
+                    logging.AddXUnit(output);
+            })
             .AddOpenSearch()
             .ConfigureOpenSearch(ConfigureLocalOpenSearch)
             .ConfigureOpenSearch(options => options.JsonSerializerOptions = IndexerJsonSerializerOptions.Options);

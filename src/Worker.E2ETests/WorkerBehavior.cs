@@ -10,11 +10,15 @@ public partial class WorkerBehavior
 
         //Act
         await using var disp = await StartAppAsync();
+        await WaitingForIndexer();
 
-        bool allItemsIndexed = await CheckIndexedItemsAsync(items);
+        var indexedItems = await ReadIndexedItemsAsync(items);
+        _output.WriteLine("Items found: " + indexedItems.Count);
+
+        var found = FoundCount(items, indexedItems);
 
         //Assert
-        Assert.True(allItemsIndexed);
+        Assert.Equal(items.Count, found);
     }
 
     [Fact]
@@ -23,14 +27,19 @@ public partial class WorkerBehavior
         //Arrange
         await WriteItemsAsync(0, 100);
         await using var disp = await StartAppAsync();
+        await WaitingForIndexer();
 
         //Act
         var items = await WriteItemsAsync(100, 100);
+        await WaitingForIndexer();
 
-        bool allItemsIndexed = await CheckIndexedItemsAsync(items);
+        var indexedItems = await ReadIndexedItemsAsync(items);
+        _output.WriteLine("Items found: " + indexedItems.Count);
+
+        var found = FoundCount(items, indexedItems);
 
         //Assert
-        Assert.True(allItemsIndexed);
+        Assert.Equal(items.Count, found);
     }
 
     [Fact]
@@ -41,10 +50,14 @@ public partial class WorkerBehavior
 
         //Act
         var items = await WriteItemsAsync(0, 100);
+        await WaitingForIndexer();
 
-        bool allItemsIndexed = await CheckIndexedItemsAsync(items);
+        var indexedItems = await ReadIndexedItemsAsync(items);
+        _output.WriteLine("Items found: " + indexedItems.Count);
+
+        var found = FoundCount(items, indexedItems);
 
         //Assert
-        Assert.True(allItemsIndexed);
+        Assert.Equal(items.Count, found);
     }
 }

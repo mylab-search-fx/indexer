@@ -21,6 +21,7 @@ public partial class WorkerBehavior :
     IClassFixture<SourceDb2Fixture>,
     IClassFixture<SourceDbCreatorFixture>,
     IClassFixture<SourceDb2CreatorFixture>,
+    IClassFixture<TestOpenSearchIndexFixture<TestOpenSearchItem>>,
     IAsyncLifetime
 {
     readonly IDbManager _source1Db;
@@ -30,19 +31,22 @@ public partial class WorkerBehavior :
 
     IServiceProvider? _app;
     DirectoryInfo? _configDir;
+    readonly TestOpenSearchIndexFixture<TestOpenSearchItem> _opensearchFxt;
 
     public WorkerBehavior
     (
         IndexerDbCleanerFixture indexerDbCleanerFxt,
         SourceDbFixture source1Fxt,
         SourceDb2Fixture source2Fxt,
+        TestOpenSearchIndexFixture<TestOpenSearchItem> opensearchFxt,
         ITestOutputHelper output
     )
     {
-        indexerDbCleanerFxt.Output = output;
-        source1Fxt.Output = output;
-        source2Fxt.Output = output;
+        //indexerDbCleanerFxt.Output = output;
+        //source1Fxt.Output = output;
+        //source2Fxt.Output = output;
 
+        _opensearchFxt = opensearchFxt;
         _indexerDbCleanerFxt = indexerDbCleanerFxt;
         _source1Db = source1Fxt.Manager;
         _source2Db = source2Fxt.Manager;
@@ -56,6 +60,8 @@ public partial class WorkerBehavior :
         await DbTestTools.CreateOrResetTestTableAsync(_source1Db);
         await DbTestTools.CreateOrResetTestTableAsync(_source2Db);
 
+        await _opensearchFxt.CleanupAsync();
+
         CreateApp();
     }
 
@@ -64,8 +70,10 @@ public partial class WorkerBehavior :
         await DbTestTools.DropTestTableAsync(_source1Db);
         await DbTestTools.DropTestTableAsync(_source2Db);
         await _indexerDbCleanerFxt.CleanupAsync();
+        
+        await _opensearchFxt.CleanupAsync();
 
-        if(_configDir is {Exists:true})
+        if (_configDir is {Exists:true})
             _configDir.Delete(true);
     }
 
@@ -147,14 +155,31 @@ public partial class WorkerBehavior :
         return items;
     }
 
-    async Task<bool> CheckIndexedItemsAsync(IEnumerable<TestDbItem> items)
+    async Task<IReadOnlyCollection<TestOpenSearchItem>> ReadIndexedItemsAsync(IEnumerable<TestDbItem> items)
     {
         if (_app == null) throw new InvalidOperationException("App was not created");
 
         var opensearch = _app.GetRequiredService<IOpenSearchClient>();
 
-        return false;
+        if (_opensearchFxt.IndexName == null) 
+            throw new InvalidOperationException("OpenSearch index is not ready");
+
+        var response = await opensearch.SearchAsync<TestOpenSearchItem>(s => s
+            .Index(_opensearchFxt.IndexName)
+            .Size(1000)
+            .Query(q => q.MatchAll())
+        );
+
+        return response.Documents;
     }
+
+    int FoundCount(IEnumerable<TestDbItem> dbItems, IEnumerable<TestOpenSearchItem> indexedItems)
+        => dbItems.Count(dbItm => indexedItems.Any(indexedItm =>
+            dbItm.Id == indexedItm.Id &&
+            dbItm.Value == indexedItm.Value &&
+            dbItm.LastModified == indexedItm.LastModified));
+
+    Task WaitingForIndexer() => Task.Delay(1000);
 
     class AppStopper : IAsyncDisposable
     {

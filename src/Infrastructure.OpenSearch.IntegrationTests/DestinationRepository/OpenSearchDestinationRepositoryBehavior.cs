@@ -3,23 +3,27 @@ using Microsoft.Extensions.Logging;
 using MyLab.Search.Indexer.Infrastructure.OpenSearch.DestinationRepository;
 using OpenSearch.Client;
 using Xunit.Abstractions;
+using static Infrastructure.OpenSearch.IntegrationTests.OpenSearchTestTools;
 
 namespace Infrastructure.OpenSearch.IntegrationTests.DestinationRepository;
 
-public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
+public class OpenSearchDestinationRepositoryBehavior(TestOpenSearchIndexFixture<StoredDocument> fxt, ITestOutputHelper output) 
+    : IClassFixture<TestOpenSearchIndexFixture<StoredDocument>>
 {
     [Fact(Timeout = 60000)]
     public async Task ShouldStoreIndexedDocumentFields()
     {
         // Arrange
-        var app = OpenSearchTestTools.CreateRepositoryApp(output);
-        await using var provider = app;
-        var client = provider.GetRequiredService<IOpenSearchClient>();
-        var logger = provider.GetRequiredService<ILoggerFactory>()
+        if (fxt.IndexName == null) throw new InvalidOperationException("Index is not ready");
+
+        var app = CreateApp(output);
+
+        var client = app.GetRequiredService<IOpenSearchClient>();
+        var logger = app.GetRequiredService<ILoggerFactory>()
             .CreateLogger<OpenSearchDestinationRepository>();
-        var indexName = "repo" + Guid.NewGuid().ToString("N");
-        var repository = new OpenSearchDestinationRepository(indexName, client, logger);
-        var page = OpenSearchTestTools.CreatePage("doc-1");
+        var repository = new OpenSearchDestinationRepository(fxt.IndexName, client, logger);
+        
+        var page = CreatePage("doc-1");
         var item = page.Items[0];
 
         try
@@ -27,8 +31,8 @@ public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
             // Act
             await repository.WriteAsync(page);
 
-            var sourceJson = await OpenSearchTestTools.ReadSingleSourceJsonAsync(client, indexName);
-            var stored = OpenSearchTestTools.ReadStored(sourceJson);
+            var sourceJson = await ReadSingleSourceJsonAsync(client, fxt.IndexName);
+            var stored = ReadStored(sourceJson);
 
             // Assert
             Assert.Equal(item.Id.Value, stored.Id);
@@ -40,7 +44,7 @@ public class OpenSearchDestinationRepositoryBehavior(ITestOutputHelper output)
         }
         finally
         {
-            await OpenSearchTestTools.DeleteIndexAsync(client, indexName);
+            await DeleteIndexAsync(client, fxt.IndexName);
         }
     }
 }

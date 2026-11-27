@@ -10,6 +10,11 @@ class IndexWorkerOrchestrator(IndexWorkerFactory factory, IDslLogger? log = null
         var workers = await factory.CreateAllAsync(cancellationToken) 
                       ?? throw new NullReferenceException("factory.CreateAll()");
 
+        log?.Action("Workers has been created")
+            .AndFactIs("workers-count", workers.Count)
+            .AndFactIs("workers-list", string.Join(", ", workers.Select(w => w.Name)))
+            .Write();
+
         await Task.WhenAll(workers.Select(w => RunAsync(w, cancellationToken)));
     }
 
